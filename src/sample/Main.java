@@ -21,6 +21,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
         RgbBitmap rgbBitmap = new RgbBitmap(300, 275);
+        rgbBitmap.fill(Color.WHITE);
         BitmapOps.midpoint(rgbBitmap, 150,150,50, Color.BLUE);
         BitmapOps.bresenham(rgbBitmap, 100, 100, 0, 0, Color.RED);
         Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
