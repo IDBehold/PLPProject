@@ -22,6 +22,7 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World");
         RgbBitmap rgbBitmap = new RgbBitmap(300, 275);
         BitmapOps.midpoint(rgbBitmap, 150,150,50, Color.BLUE);
+        BitmapOps.bresenham(rgbBitmap, 100, 100, 0, 0, Color.RED);
         Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
         VBox vBox = new VBox();
         ImageView imageView = new ImageView();
