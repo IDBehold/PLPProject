@@ -29,6 +29,10 @@ object Draw {
     BitmapOps.midpoint(rgbBitmap, x, y, r, c)
   }
 
+  def circleFill(rgbBitmap: RgbBitmap, x: Int, y: Int, r: Int, c: Color) = {
+    BitmapOps.midpointFill(rgbBitmap, x, y, r, c)
+  }
+
   def textAt(rgbBitmap: RgbBitmap, x: Int, y: Int, t: String, c: Color) = {
 
   }
