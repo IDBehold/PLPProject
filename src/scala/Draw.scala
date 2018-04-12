@@ -19,10 +19,10 @@ object Draw {
   }
 
   def rectangle(rgbBitmap: RgbBitmap, x0: Int, y0: Int, x1: Int, y1: Int, c: Color) = {
-    BitmapOps.bresenham(rgbBitmap, x0,y0,x0,y1,c);
-    BitmapOps.bresenham(rgbBitmap, x0,y1,x1,y1,c);
-    BitmapOps.bresenham(rgbBitmap, x1,y1,x1,y0,c);
-    BitmapOps.bresenham(rgbBitmap, x0,y0,x1,y0,c);
+    line(rgbBitmap, x0,y0,x0,y1,c)
+    line(rgbBitmap, x0,y1,x1,y1,c)
+    line(rgbBitmap, x1,y1,x1,y0,c)
+    line(rgbBitmap, x0,y0,x1,y0,c)
   }
 
   def circle(rgbBitmap: RgbBitmap, x: Int, y: Int, r: Int, c: Color) = {
