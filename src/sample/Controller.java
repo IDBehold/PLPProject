@@ -27,7 +27,7 @@ public class Controller {
 
     @FXML
     public void submit() {
-        RgbBitmap rgbBitmap = new RgbBitmap((int) imageContainer.getWidth(), (int) imageContainer.getHeight());
+        RgbBitmap rgbBitmap = new RgbBitmap((int) imageContainer.getWidth(), (int) imageContainer.getHeight(), 50,50, 300,300);
         rgbBitmap.fill(Color.WHITE);
 
 
@@ -37,6 +37,7 @@ public class Controller {
         circle(lines, 150, 150, 98, Color.BLUE);
         circleFill(lines, 150, 150, 75, Color.CYAN);
         line(lines, 50, 50, 100, 200, Color.CYAN);
+        rectangle(lines,50,50,300,300, Color.BLACK);
 
         Image image = SwingFXUtils.toFXImage(lines.image(), null);
         ImageView imageView = new ImageView();
