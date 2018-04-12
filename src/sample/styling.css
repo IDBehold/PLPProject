@@ -1,0 +1,15 @@
+#InputField {
+    -fx-background-color: crimson;
+}
+
+#ErrorMessages {
+    -fx-background-color: cyan;
+}
+
+#imageContainer {
+    -fx-background-color: blueviolet;
+}
+ #GridPane {
+     -fx-background-color: darkorange;
+     -fx-padding: 0 10 0 10;
+ }
