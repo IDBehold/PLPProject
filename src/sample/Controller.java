@@ -32,14 +32,14 @@ public class Controller {
 
 
         Cons shapeList = new Cons(new Line(100, 100, 200, 200), new Cons(new Line(0, 0, 150, 150), new Cons(new Rectangle(30,30,50,50), new Cons(new Rectangle(100,90, 75, 350), new Cons(new Rectangle(200,200,100,100), new Nil())))));
-        RgbBitmap lines = draw(rgbBitmap, Color.RED, shapeList);
-        circle(lines, 150, 150, 100, Color.BLUE);
-        circle(lines, 150, 150, 98, Color.BLUE);
-        circleFill(lines, 150, 150, 75, Color.CYAN);
-        line(lines, 50, 50, 100, 200, Color.CYAN);
-        rectangle(lines,50,50,300,300, Color.BLACK);
+        rgbBitmap = draw(rgbBitmap, Color.RED, shapeList);
+        circle(rgbBitmap, 150, 150, 100, Color.BLUE);
+        circle(rgbBitmap, 150, 150, 98, Color.BLUE);
+        circleFill(rgbBitmap, 150, 150, 75, Color.CYAN);
+        line(rgbBitmap, 50, 50, 100, 200, Color.CYAN);
+        rectangle(rgbBitmap,50,50,300,300, Color.BLACK);
 
-        Image image = SwingFXUtils.toFXImage(lines.image(), null);
+        Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
         ImageView imageView = new ImageView();
         imageView.setImage(image);
 
