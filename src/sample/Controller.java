@@ -29,6 +29,7 @@ public class Controller {
         rgbBitmap.fill(Color.WHITE);
         Draw.circle(rgbBitmap, 150, 150, 25, Color.BLUE);
         Draw.line(rgbBitmap,50, 50, 100, 100, Color.CYAN);
+        Draw.rectangle(rgbBitmap, 20, 20, 50, 50, Color.RED);
         Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
         ImageView imageView = new ImageView();
         imageView.setImage(image);
