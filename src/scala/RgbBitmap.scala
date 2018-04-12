@@ -19,5 +19,21 @@ class RgbBitmap(val width: Int, val height: Int, val x0: Int, val y0: Int, val x
     }
   }
 
+  def validateCanvas(x: Int, y: Int): Boolean = {
+    x >= 0 && y >= 0 && x < width && y < height
+  }
+
+  def setPixel(x: Int, y: Int, c: Color, prio: Boolean) = {
+    if (validateCanvas(x, y)) {
+      if (prio || validateBounds(x, y)) {
+        image.setRGB(x, y, c.getRGB())
+      }
+    }
+  }
+
+  private def validateBounds(x: Int, y: Int): Boolean = {
+    (x >= x0 && x <= x1 && y >= y0 && y <= y1)
+  }
+
   def getPixel(x: Int, y: Int) = new Color(image.getRGB(x, y))
 }

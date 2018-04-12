@@ -18,6 +18,10 @@ object Draw {
     BitmapOps.bresenham(rgbBitmap, x0, y0, x1, y1, c)
   }
 
+  def gridLine(rgbBitmap: RgbBitmap, x0: Int, y0: Int, x1: Int, y1: Int, c: Color) = {
+    BitmapOps.bresenham(rgbBitmap, x0, y0, x1, y1, c, true)
+  }
+
   def rectangle(rgbBitmap: RgbBitmap, x0: Int, y0: Int, x1: Int, y1: Int, c: Color) = {
     line(rgbBitmap, x0,y0,x0,y1,c)
     line(rgbBitmap, x0,y1,x1,y1,c)
