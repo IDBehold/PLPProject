@@ -25,6 +25,22 @@ object Draw {
     line(rgbBitmap, x0,y0,x1,y0,c)
   }
 
+  def rectangleFill(rgbBitmap: RgbBitmap, x0: Int, y0: Int, x1: Int, y1: Int, c: Color) = {
+    var deltaY = y0 - y1
+    var deltaYIsNegative = deltaY < 0;
+    var linesDrawn = 0
+
+    while(linesDrawn <= math.abs(deltaY)) {
+        if(deltaYIsNegative) {
+          line(rgbBitmap, x0,y0 + linesDrawn,x1,y0 + linesDrawn,c)
+          }
+        else{
+          line(rgbBitmap, x0,y0 - linesDrawn,x1,y0 - linesDrawn,c)
+        }
+        linesDrawn += 1
+      }
+  }
+
   def circle(rgbBitmap: RgbBitmap, x: Int, y: Int, r: Int, c: Color) = {
     BitmapOps.midpoint(rgbBitmap, x, y, r, c)
   }

@@ -38,6 +38,9 @@ public class Controller {
         circleFill(rgbBitmap, 150, 150, 75, Color.CYAN);
         line(rgbBitmap, 50, 50, 100, 200, Color.CYAN);
         rectangle(rgbBitmap,50,50,300,300, Color.BLACK);
+        rectangleFill(rgbBitmap,300,300,200,200, Color.BLACK);
+        rectangleFill(rgbBitmap,235,235,275,275, Color.GRAY);
+
 
         Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
         ImageView imageView = new ImageView();
