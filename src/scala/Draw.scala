@@ -1,22 +1,18 @@
 package scala
 
 import java.awt.Color
-import scala.BitmapOps
 
 object Draw {
+  sealed abstract class ShapeList
+  case class Cons(head:Shape, tail: ShapeList) extends ShapeList
+  case class Nil() extends ShapeList
 
   abstract class Shape
-
   case class Line(x0: Int, y0: Int, x1: Int, y1: Int) extends Shape
-
   case class Rectangle(x0: Int, y0: Int, x1: Int, y1: Int) extends Shape
-
   case class Circle(x: Int, y: Int, r: Int) extends Shape
-
   case class TextAt(x: Int, y: Int, t: String) extends Shape
-
   case class BoundingBox(x0: Int, y0: Int, x1: Int, y1: Int) extends Shape
-
 
   def line(rgbBitmap: RgbBitmap, x0: Int, y0: Int, x1: Int, y1: Int, c: Color) = {
     BitmapOps.bresenham(rgbBitmap, x0, y0, x1, y1, c)
@@ -41,7 +37,15 @@ object Draw {
 
   }
 
-  def draw(rgbBitmap: RgbBitmap, c: Color, g: Shape) = g match { //g should be a list of shapes
+  def draw(rgbBitmap: RgbBitmap, c: Color, sl: ShapeList): RgbBitmap = sl match {
+    case Nil() => rgbBitmap
+    case Cons(hd, tail) => {
+      draw(rgbBitmap, c, hd)
+      draw(rgbBitmap, c, tail)
+    }
+  }
+
+  def draw(rgbBitmap: RgbBitmap, c: Color, g: Shape) = g match {
     case Line(x0, y0, x1, y1) => line(rgbBitmap, x0, y0, x1, y1, c)
     case Rectangle(x0, y0, x1, y1) => rectangle(rgbBitmap, x0, y0, x1, y1, c)
     case Circle(x, y, r) => circle(rgbBitmap, x, y, r, c)
@@ -53,4 +57,6 @@ object Draw {
   def fill(c: Color, g: Shape) = {
     //TBD
   }
+
+
 }
