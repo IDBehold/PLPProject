@@ -28,7 +28,7 @@ public class Controller {
 
     @FXML
     public void submit() {
-        RgbBitmap rgbBitmap = new RgbBitmap((int) imageContainer.getWidth(), (int) imageContainer.getHeight(), 50, 50, 200, 200);
+        RgbBitmap rgbBitmap = new RgbBitmap((int) imageContainer.getWidth(), (int) imageContainer.getHeight(), 50, 50, 350, 350);
         rgbBitmap.fill(Color.WHITE);
         Grid.draw(rgbBitmap, (int) imageContainer.getWidth(), (int) imageContainer.getHeight());
 
@@ -39,7 +39,7 @@ public class Controller {
         circle(rgbBitmap, 150, 150, 98, Color.BLUE);
         circleFill(rgbBitmap, 150, 150, 75, Color.CYAN);
         line(rgbBitmap, 50, 50, 100, 200, Color.CYAN);
-        rectangle(rgbBitmap,50,50,300,300, Color.BLACK);
+        rectangle(rgbBitmap,50,50,350,350, Color.BLACK);
         rectangleFill(rgbBitmap,300,300,200,200, Color.BLACK);
         rectangleFill(rgbBitmap,235,235,275,275, Color.GRAY);
 
