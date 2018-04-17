@@ -57,6 +57,10 @@ object Draw {
     rgbBitmap.setText(x, y, t, c)
   }
 
+  def piecChart(rgbBitmap: RgbBitmap) = {
+    rgbBitmap.pieChart()
+  }
+
   def boundingBox(rgbBitmap: RgbBitmap, x0: Int, y0: Int, x1: Int, y1: Int, c: Color) = {
 
   }

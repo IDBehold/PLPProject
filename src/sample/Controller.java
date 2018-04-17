@@ -10,20 +10,10 @@ import javafx.scene.layout.VBox;
 import scala.Grid;
 import scala.RgbBitmap;
 
+import java.awt.Color;
 
-import java.awt.*;
-
-import static scala.Draw.Cons;
-import static scala.Draw.Line;
-import static scala.Draw.Nil;
-import static scala.Draw.Rectangle;
-import static scala.Draw.circle;
-import static scala.Draw.circleFill;
-import static scala.Draw.draw;
-import static scala.Draw.line;
+import static scala.Draw.piecChart;
 import static scala.Draw.rectangle;
-import static scala.Draw.rectangleFill;
-import static scala.Draw.textAt;
 
 public class Controller {
     @FXML
@@ -64,6 +54,7 @@ public class Controller {
 //        rectangleFill(rgbBitmap,235,235,275,275, Color.GRAY);
 
 
+            piecChart(rgbBitmap);
 
 
             Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
