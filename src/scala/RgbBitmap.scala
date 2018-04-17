@@ -51,21 +51,27 @@ class RgbBitmap(val width: Int, val height: Int, val x0: Int, val y0: Int, val x
     var startAngle = 0
     var arcAngle = 0
     var curValue = 0
+    var n = 0
 
     val slices = List(25,25,25,25)
     val Colors = List[Color](Color.BLACK, Color.BLUE, Color.RED, Color.YELLOW)
     for (slice: Int <- slices) {
-      var n = 0
       drawChart(n, slice)
-      n+1
+      n += 1
     }
 
     def drawChart(n: Int, slice: Int) = {
+      println(n)
       startAngle = curValue * 360 / total
+      println(curValue)
       arcAngle = (slice * 360 / total)
+      println(arcAngle)
       g.setColor(Colors(n))
       g.fillArc(100, 100, 50, 50, startAngle, arcAngle)
-      curValue += slices(n)
+      curValue += slice
+      println(curValue)
+      println(n)
+
     }
 
   }
