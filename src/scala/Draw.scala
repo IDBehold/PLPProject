@@ -31,7 +31,7 @@ object Draw {
 
   def rectangleFill(rgbBitmap: RgbBitmap, x0: Int, y0: Int, x1: Int, y1: Int, c: Color) = {
     var deltaY = y0 - y1
-    var deltaYIsNegative = deltaY < 0;
+    var deltaYIsNegative = deltaY < 0
     var linesDrawn = 0
 
     while(linesDrawn <= math.abs(deltaY)) {
