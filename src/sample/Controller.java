@@ -2,12 +2,15 @@ package sample;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import scala.Draw;
 import scala.Grid;
 import scala.RgbBitmap;
+
 
 import java.awt.*;
 
@@ -18,10 +21,10 @@ public class Controller {
     VBox imageContainer;
 
     @FXML
-    TextArea inputField;
+    TextArea InputField;
 
     @FXML
-    Label errorMessage;
+    Label ErrorMessages;
 
     public Controller() {
     }
@@ -40,7 +43,7 @@ public class Controller {
         rectangle(rgbBitmap,50,50,350,350, Color.BLACK);
 
 
-//        errorMessage.setText((String) Interpreter.SplitText(inputField.getText()).getLength());
+        ErrorMessages.setText(Integer.toString((Interpreter.SplitInput(InputField.getText()).size())));
 //        Cons shapeList = new Cons(new Line(100, 100, 200, 200), new Cons(new Line(0, 0, 150, 150), new Cons(new Rectangle(30,30,50,50), new Cons(new Rectangle(100,90, 75, 350), new Cons(new Rectangle(200,200,100,100), new Nil())))));
 //        rgbBitmap = draw(rgbBitmap, Color.RED, shapeList);
 //        circle(rgbBitmap, 150, 150, 100, Color.BLUE);
