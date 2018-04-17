@@ -13,10 +13,12 @@ import scala.RgbBitmap;
 
 
 import java.awt.*;
+import java.awt.Shape;
+import java.util.List;
 
 import static scala.Draw.*;
 
-public class Controller {
+public class Controller implements Painter {
     @FXML
     VBox imageContainer;
 
@@ -25,13 +27,14 @@ public class Controller {
 
     @FXML
     Label ErrorMessages;
+    private Interpreter interpreter;
 
     public Controller() {
     }
 
     @FXML
     public void initialize() {
-
+        interpreter = new Interpreter(this);
 
     }
 
@@ -43,7 +46,7 @@ public class Controller {
         rectangle(rgbBitmap,50,50,350,350, Color.BLACK);
 
 
-        ErrorMessages.setText(Integer.toString((Interpreter.SplitInput(InputField.getText()).size())));
+        ErrorMessages.setText(Integer.toString((interpreter.splitIntoCommands(InputField.getText()).size())));
 //        Cons shapeList = new Cons(new Line(100, 100, 200, 200), new Cons(new Line(0, 0, 150, 150), new Cons(new Rectangle(30,30,50,50), new Cons(new Rectangle(100,90, 75, 350), new Cons(new Rectangle(200,200,100,100), new Nil())))));
 //        rgbBitmap = draw(rgbBitmap, Color.RED, shapeList);
 //        circle(rgbBitmap, 150, 150, 100, Color.BLUE);
@@ -59,5 +62,40 @@ public class Controller {
         imageView.setImage(image);
 
         imageContainer.getChildren().addAll(imageView);
+    }
+
+    @Override
+    public void setBoundingBox(int x1, int y1, int x2, int y2) {
+
+    }
+
+    @Override
+    public void drawLine(int x1, int y1, int x2, int y2) {
+
+    }
+
+    @Override
+    public void drawRectangle(int x1, int y1, int x2, int y2) {
+
+    }
+
+    @Override
+    public void drawCircle(int x, int y, int r) {
+
+    }
+
+    @Override
+    public void drawTextAt(int x, int y, String t) {
+
+    }
+
+    @Override
+    public void drawShapes(Color c, List<Draw.Shape> shapes) {
+
+    }
+
+    @Override
+    public void fillShape(Color c, Shape shape) {
+
     }
 }
