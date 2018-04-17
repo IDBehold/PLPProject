@@ -85,4 +85,4 @@ project/plugins/project/
 .worksheet
 
 #Project file?
-.iml
+*.iml
