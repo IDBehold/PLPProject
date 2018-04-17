@@ -7,6 +7,13 @@ object Draw {
   case class Cons(head:Shape, tail: ShapeList) extends ShapeList
   case class Nil() extends ShapeList
 
+  sealed abstract class SliceList
+  case class Slices(head: Slice, tail: SliceList) extends SliceList
+  case class Base() extends SliceList
+
+  abstract class Slice
+  case class percentage(p: Int) extends Slice
+
   abstract class Shape
   case class Line(x0: Int, y0: Int, x1: Int, y1: Int) extends Shape
   case class Rectangle(x0: Int, y0: Int, x1: Int, y1: Int) extends Shape
@@ -57,12 +64,31 @@ object Draw {
     rgbBitmap.setText(x, y, t, c)
   }
 
-  def piecChart(rgbBitmap: RgbBitmap) = {
-    rgbBitmap.pieChart()
+  def drawPieChart(rgbBitmap: RgbBitmap, sl: SliceList) = {
+    var list = List(25,25,25,25)
+    listSlices(sl, list)
+    rgbBitmap.pieChart(list)
   }
 
-  def boundingBox(rgbBitmap: RgbBitmap, x0: Int, y0: Int, x1: Int, y1: Int, c: Color) = {
+  //
+  def listSlices(sl: SliceList, list: List[Int]): Unit = sl match {
+    case Base() => return
+    case Slices(hd, tail) => {
+      println("From listSlices recursive call: " + hd)
+      getSlice(hd, list)
+      println(list.length)
+      // Add value to list and call pieChart in RgbBitmap?
+      // how do I add the value from percentage parameters to a list?
+      listSlices(tail, list)
+    }
+  }
 
+  def getSlice(sl: Slice, list: List[Int]): Any = {
+    // percentage value retrieval?
+  }
+
+  def Add(list: List[Int], p: Int): List[Int] = {
+    list :+ p
   }
 
   def draw(rgbBitmap: RgbBitmap, c: Color, sl: ShapeList): RgbBitmap = sl match {
@@ -78,8 +104,6 @@ object Draw {
     case Rectangle(x0, y0, x1, y1) => rectangle(rgbBitmap, x0, y0, x1, y1, c)
     case Circle(x, y, r) => circle(rgbBitmap, x, y, r, c)
     case TextAt(x, y, t) => textAt(rgbBitmap, x, y, t, c)
-    case BoundingBox(x0, y0, x1, y1) => boundingBox(rgbBitmap, x0, y0, x1, y1, c)
-
   }
 
   def fill(c: Color, g: Shape) = {

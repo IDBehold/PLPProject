@@ -7,13 +7,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+
+
+import static scala.Draw.*;
 import scala.Grid;
 import scala.RgbBitmap;
 
 import java.awt.Color;
 
-import static scala.Draw.piecChart;
-import static scala.Draw.rectangle;
 
 public class Controller {
     @FXML
@@ -53,14 +54,15 @@ public class Controller {
 //        rectangleFill(rgbBitmap,300,300,200,200, Color.BLACK);
 //        rectangleFill(rgbBitmap,235,235,275,275, Color.GRAY);
 
+        Slices sliceList = new Slices(new percentage(25), new Slices(new percentage(25), new Slices(new percentage(50), new Base())));
+        drawPieChart(rgbBitmap,sliceList);
+        textAt(rgbBitmap, 90, 90, "This is a pie chart", Color.BLACK);
 
-            piecChart(rgbBitmap);
 
+        Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
+        ImageView imageView = new ImageView();
+        imageView.setImage(image);
 
-            Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
-            ImageView imageView = new ImageView();
-            imageView.setImage(image);
-
-            imageContainer.getChildren().addAll(imageView);
+        imageContainer.getChildren().addAll(imageView);
     }
 }

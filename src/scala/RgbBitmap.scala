@@ -3,6 +3,9 @@ package scala
 import java.awt.image.BufferedImage
 import java.awt.{Color, Font}
 
+import scala.Draw.{Base, Slice, SliceList, Slices}
+import scala.annotation.tailrec
+
 class RgbBitmap(val width: Int, val height: Int, val x0: Int, val y0: Int, val x1: Int, val y1: Int) {
   val image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR)
 
@@ -45,34 +48,60 @@ class RgbBitmap(val width: Int, val height: Int, val x0: Int, val y0: Int, val x
   }
 
 
-  def pieChart(): Unit = {
+  def pieChart(sl: List[Int]): Unit = {
     val g = image.getGraphics()
-    val total = 100
+
+    // Sum from list of slices instead
+    def sum(ints: List[Int]): Int = {
+      @tailrec
+      def sumAccumulator(ints: List[Int], accum: Int): Int = {
+        ints match {
+          case Nil => accum
+          case x :: tail => sumAccumulator(tail, accum + x)
+        }
+      }
+      sumAccumulator(ints, 0)
+    }
+
+    def sum2(xs: List[Int]): Int = {
+      if (xs.isEmpty) 0
+      else xs.head + sum2(xs.tail)
+    }
+
+    var total = 0
     var startAngle = 0
     var arcAngle = 0
     var curValue = 0
     var n = 0
 
-    val slices = List(25,25,25,25)
-    val Colors = List[Color](Color.BLACK, Color.BLUE, Color.RED, Color.YELLOW)
+    val slices = sl//List(25,25,25,25)
+    val Colors = List[Color](
+      Color.BLACK,
+      Color.BLUE,
+      Color.RED,
+      Color.YELLOW,
+      Color.CYAN,
+      Color.GREEN)
+
+    total = sum(slices)
+    println("sum Total: " + total)
+    total = 0
+    println("reset Total: " + total)
+    total = sum2(slices)
+    println("sum2 Total: " + total)
+
+    // Iterate through the list recursively?
     for (slice: Int <- slices) {
       drawChart(n, slice)
-      n += 1
+      n += 1 // Assignment bad (functional programming wise)?
     }
 
     def drawChart(n: Int, slice: Int) = {
-      println(n)
       startAngle = curValue * 360 / total
-      println(curValue)
-      arcAngle = (slice * 360 / total)
-      println(arcAngle)
+      arcAngle = slice * 360 / total
       g.setColor(Colors(n))
       g.fillArc(100, 100, 50, 50, startAngle, arcAngle)
       curValue += slice
-      println(curValue)
-      println(n)
-
     }
-
   }
 }
