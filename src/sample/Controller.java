@@ -13,6 +13,7 @@ import scala.RgbBitmap;
 
 
 import java.awt.*;
+import java.awt.Shape;
 
 import static scala.Draw.*;
 
@@ -44,7 +45,7 @@ public class Controller implements Painter {
         rectangle(rgbBitmap,50,50,350,350, Color.BLACK);
 
 
-        ErrorMessages.setText(Integer.toString((Interpreter.SplitInput(InputField.getText()).size())));
+        ErrorMessages.setText(Integer.toString((interpreter.splitIntoCommands(InputField.getText()).size())));
 //        Cons shapeList = new Cons(new Line(100, 100, 200, 200), new Cons(new Line(0, 0, 150, 150), new Cons(new Rectangle(30,30,50,50), new Cons(new Rectangle(100,90, 75, 350), new Cons(new Rectangle(200,200,100,100), new Nil())))));
 //        rgbBitmap = draw(rgbBitmap, Color.RED, shapeList);
 //        circle(rgbBitmap, 150, 150, 100, Color.BLUE);
@@ -92,7 +93,7 @@ public class Controller implements Painter {
     }
 
     @Override
-    public void drawShapes(Color c, List<Draw.Shape> shapes) {
+    public void drawShapes(Color c, java.util.List<Draw.Shape> shapes) {
 
     }
 
