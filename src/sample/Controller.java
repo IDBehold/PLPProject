@@ -13,8 +13,6 @@ import scala.RgbBitmap;
 
 
 import java.awt.*;
-import java.awt.Shape;
-import java.util.List;
 
 import static scala.Draw.*;
 
@@ -46,7 +44,7 @@ public class Controller implements Painter {
         rectangle(rgbBitmap,50,50,350,350, Color.BLACK);
 
 
-        ErrorMessages.setText(Integer.toString((interpreter.splitIntoCommands(InputField.getText()).size())));
+        ErrorMessages.setText(Integer.toString((Interpreter.SplitInput(InputField.getText()).size())));
 //        Cons shapeList = new Cons(new Line(100, 100, 200, 200), new Cons(new Line(0, 0, 150, 150), new Cons(new Rectangle(30,30,50,50), new Cons(new Rectangle(100,90, 75, 350), new Cons(new Rectangle(200,200,100,100), new Nil())))));
 //        rgbBitmap = draw(rgbBitmap, Color.RED, shapeList);
 //        circle(rgbBitmap, 150, 150, 100, Color.BLUE);
@@ -55,6 +53,10 @@ public class Controller implements Painter {
 //        line(rgbBitmap, 50, 50, 100, 200, Color.CYAN);
 //        rectangleFill(rgbBitmap,300,300,200,200, Color.BLACK);
 //        rectangleFill(rgbBitmap,235,235,275,275, Color.GRAY);
+
+        Slices sliceList = new Slices(new percentage(25), new Slices(new percentage(25), new Slices(new percentage(50), new Base())));
+        drawPieChart(rgbBitmap,sliceList);
+        textAt(rgbBitmap, 90, 90, "This is a pie chart", Color.BLACK);
 
 
         Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
