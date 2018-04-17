@@ -1,7 +1,7 @@
 package scala
 
 import java.awt.image.BufferedImage
-import java.awt.Color
+import java.awt.{Color, Font}
 
 class RgbBitmap(val width: Int, val height: Int, val x0: Int, val y0: Int, val x1: Int, val y1: Int) {
   val image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR)
@@ -36,4 +36,24 @@ class RgbBitmap(val width: Int, val height: Int, val x0: Int, val y0: Int, val x
   }
 
   def getPixel(x: Int, y: Int) = new Color(image.getRGB(x, y))
+
+  def setText(x: Int, y: Int, t: String, c: Color) = {
+    val g = image.getGraphics()
+    g.setFont(new Font ("Arial Black", Font.BOLD, 12))
+    g.setColor(c)
+    g.drawString(t, x, y)
+  }
+
+
+  def pieChart(): Unit = {
+    val g = image.getGraphics()
+    val total = 100
+    var startAngle = 0
+    var curValue = 0
+
+    val slices = List(25,25,25,25)
+
+    slices.foreach(n => curValue * 360 / total)
+
+  }
 }

@@ -54,7 +54,7 @@ object Draw {
   }
 
   def textAt(rgbBitmap: RgbBitmap, x: Int, y: Int, t: String, c: Color) = {
-
+    rgbBitmap.setText(x, y, t, c)
   }
 
   def boundingBox(rgbBitmap: RgbBitmap, x0: Int, y0: Int, x1: Int, y1: Int, c: Color) = {
