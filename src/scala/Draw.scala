@@ -83,7 +83,8 @@ object Draw {
     }
   }
 
-  def getSlice(sl: Slice, list: List[Int]): Any = {
+  def getSlice(sl: Slice, list: List[Int]): Any = sl match {
+    case percentage(p) => p
     // percentage value retrieval?
   }
 
