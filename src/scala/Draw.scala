@@ -71,20 +71,22 @@ object Draw {
   }
 
   //
-  def listSlices(sl: SliceList, list: List[Int]): Unit = sl match {
-    case Base() => return
+  def listSlices(sl: SliceList, list: List[Int]): List[Int] = sl match {
+    case Base() => return list
     case Slices(hd, tail) => {
       println("From listSlices recursive call: " + hd)
       getSlice(hd, list)
-      println(list.length)
       // Add value to list and call pieChart in RgbBitmap?
       // how do I add the value from percentage parameters to a list?
       listSlices(tail, list)
     }
   }
 
-  def getSlice(sl: Slice, list: List[Int]): Any = sl match {
-    case percentage(p) => p
+  def getSlice(sl: Slice, list: List[Int]): List[Int] = sl match {
+    case percentage(p) =>
+      println(p)
+      list.+:(p)
+      return list
     // percentage value retrieval?
   }
 

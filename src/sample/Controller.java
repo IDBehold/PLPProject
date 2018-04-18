@@ -27,6 +27,7 @@ public class Controller implements Painter {
     @FXML
     Label ErrorMessages;
     private Interpreter interpreter;
+    private RgbBitmap rgbBitmap;
 
     public Controller() {
     }
@@ -39,25 +40,22 @@ public class Controller implements Painter {
 
     @FXML
     public void submit() {
-        RgbBitmap rgbBitmap = new RgbBitmap((int) imageContainer.getWidth(), (int) imageContainer.getHeight(), 50, 50, 350, 350);
-        rgbBitmap.fill(Color.WHITE);
-        Grid.draw(rgbBitmap, (int) imageContainer.getWidth(), (int) imageContainer.getHeight());
-        rectangle(rgbBitmap,50,50,350,350, Color.BLACK);
+        setBoundingBox(2,2,18,18); // Always first in input field
+
+//        drawLine(5,5,5,5); // Validate input - This will crash
+        drawLine(2,2,4,4);
+        drawLine(2,18,4,16);
+        drawRectangle(4,4,12,16);
+        drawLine(12,4, 18,2);
+        drawLine(12,16,18,18);
 
 
         ErrorMessages.setText(Integer.toString((interpreter.splitIntoCommands(InputField.getText()).size())));
 //        Cons shapeList = new Cons(new Line(100, 100, 200, 200), new Cons(new Line(0, 0, 150, 150), new Cons(new Rectangle(30,30,50,50), new Cons(new Rectangle(100,90, 75, 350), new Cons(new Rectangle(200,200,100,100), new Nil())))));
-//        rgbBitmap = draw(rgbBitmap, Color.RED, shapeList);
-//        circle(rgbBitmap, 150, 150, 100, Color.BLUE);
-//        circle(rgbBitmap, 150, 150, 98, Color.BLUE);
 //        circleFill(rgbBitmap, 150, 150, 75, Color.CYAN);
-//        line(rgbBitmap, 50, 50, 100, 200, Color.CYAN);
-//        rectangleFill(rgbBitmap,300,300,200,200, Color.BLACK);
-//        rectangleFill(rgbBitmap,235,235,275,275, Color.GRAY);
-
-        Slices sliceList = new Slices(new percentage(25), new Slices(new percentage(25), new Slices(new percentage(50), new Base())));
-        drawPieChart(rgbBitmap,sliceList);
-        textAt(rgbBitmap, 90, 90, "This is a pie chart", Color.BLACK);
+//
+//        Slices sliceList = new Slices(new percentage(25), new Slices(new percentage(25), new Slices(new percentage(50), new Base())));
+//        drawPieChart(rgbBitmap,sliceList);
 
 
         Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
@@ -68,28 +66,31 @@ public class Controller implements Painter {
     }
 
     @Override
-    public void setBoundingBox(int x1, int y1, int x2, int y2) {
-
+    public void setBoundingBox(int x0, int y0, int x1, int y1) {
+        rgbBitmap = new RgbBitmap((int) imageContainer.getWidth(), (int) imageContainer.getHeight(), x0*20, y0*20, x1*20, y1*20);
+        rgbBitmap.fill(Color.WHITE);
+        Grid.draw(rgbBitmap, (int) imageContainer.getWidth(), (int) imageContainer.getHeight());
+        rectangle(rgbBitmap,x0*20, y0*20, x1*20, y1*20, Color.BLACK);
     }
 
     @Override
-    public void drawLine(int x1, int y1, int x2, int y2) {
-
+    public void drawLine(int x0, int y0, int x1, int y1) {
+        line(rgbBitmap, x0*20, Math.abs(y0-20)*20, x1*20, Math.abs(y1-20)*20, Color.BLACK);
     }
 
     @Override
-    public void drawRectangle(int x1, int y1, int x2, int y2) {
-
+    public void drawRectangle(int x0, int y0, int x1, int y1) {
+        rectangle(rgbBitmap, x0*20, Math.abs(y0-20)*20, x1*20, Math.abs(y1-20)*20, Color.BLACK);
     }
 
     @Override
     public void drawCircle(int x, int y, int r) {
-
+        circle(rgbBitmap,x*20, Math.abs(y-20)*20, r*20, Color.BLACK);
     }
 
     @Override
     public void drawTextAt(int x, int y, String t) {
-
+        textAt(rgbBitmap, x*20, Math.abs(y-20)*20, t, Color.BLACK);
     }
 
     @Override
