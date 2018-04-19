@@ -62,6 +62,8 @@ public class Controller implements Painter {
         ImageView imageView = new ImageView();
         imageView.setImage(image);
 
+        // Clear image container and add new imageView
+        imageContainer.getChildren().clear();
         imageContainer.getChildren().addAll(imageView);
     }
 
