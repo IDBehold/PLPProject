@@ -13,7 +13,6 @@ import scala.RgbBitmap;
 
 
 import java.awt.*;
-import java.awt.Shape;
 
 import static scala.Draw.*;
 
@@ -101,7 +100,7 @@ public class Controller implements Painter {
     }
 
     @Override
-    public void fillShape(Color c, Shape shape) {
+    public void fillShape(Color c, Draw.Shape shape) {
 
     }
 }
