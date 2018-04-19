@@ -132,16 +132,6 @@ public class Interpreter {
                 endIndex = pos;
                 result.add(command.substring(startIndex, endIndex));
             }
-
-//            if (Character.toString(command.charAt(pos)).matches("[(]") && !findEnd) {
-//                startIndex = pos;
-//                findEnd = true;
-//            }
-//            if (Character.toString(command.charAt(pos)).matches("[)]") && findEnd) {
-//                endIndex = pos;
-//                findEnd = false;
-//                result.add(command.substring(startIndex, endIndex));
-//            }
             pos++;
         }
 
