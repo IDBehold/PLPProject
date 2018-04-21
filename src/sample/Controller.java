@@ -41,14 +41,15 @@ public class Controller implements Painter {
     @FXML
     public void submit() {
         setBoundingBox(2,2,18,18); // Always first in input field
+//        drawLine(2,2,4,4);
+//        drawLine(2,18,4,16);
+//        drawRectangle(4,4,12,16);
+//        drawLine(12,4, 18,2);
+//        drawLine(12,16,18,18);
 
-//        drawLine(5,5,5,5); // Validate input - This will crash
-        drawLine(2,2,4,4);
-        drawLine(2,18,4,16);
-        drawRectangle(4,4,12,16);
-        drawLine(12,4, 18,2);
-        drawLine(12,16,18,18);
-
+        drawCircle(10,10,5);
+        drawLine(10,10,15,10);
+        drawLine(10,10,13,14);
 
         ErrorMessages.setText(Integer.toString((interpreter.splitIntoCommands(InputField.getText()).size())));
 //        Cons shapeList = new Cons(new Line(100, 100, 200, 200), new Cons(new Line(0, 0, 150, 150), new Cons(new Rectangle(30,30,50,50), new Cons(new Rectangle(100,90, 75, 350), new Cons(new Rectangle(200,200,100,100), new Nil())))));
@@ -70,18 +71,33 @@ public class Controller implements Painter {
         rgbBitmap = new RgbBitmap((int) imageContainer.getWidth(), (int) imageContainer.getHeight(), x0*20, y0*20, x1*20, y1*20);
         rgbBitmap.fill(Color.WHITE);
         Grid.draw(rgbBitmap, (int) imageContainer.getWidth(), (int) imageContainer.getHeight());
-        rectangle(rgbBitmap,x0*20, y0*20, x1*20, y1*20, Color.BLACK);
+        if (validateRectangleInput(x0,y0,x1,y1)) {
+            rectangle(rgbBitmap,x0*20, y0*20, x1*20, y1*20, Color.BLACK);
+        } else {System.out.println("Input not valid");}
     }
 
     @Override
     public void drawLine(int x0, int y0, int x1, int y1) {
-        line(rgbBitmap, x0*20, Math.abs(y0-20)*20, x1*20, Math.abs(y1-20)*20, Color.BLACK);
+        try {
+            if (validateLineInput(x0, y0, x1, y1)) {
+                line(rgbBitmap, x0 * 20, Math.abs(y0 - 20) * 20, x1 * 20, Math.abs(y1 - 20) * 20, Color.BLACK);
+            } else {System.out.println("Input not valid");}
+        } catch (Exception E) {
+            System.out.println("Input not valid");
+        }
     }
 
     @Override
     public void drawRectangle(int x0, int y0, int x1, int y1) {
-        rectangle(rgbBitmap, x0*20, Math.abs(y0-20)*20, x1*20, Math.abs(y1-20)*20, Color.BLACK);
+        try {
+            if (validateRectangleInput(x0, y0, x1, y1)){
+                rectangle(rgbBitmap, x0*20, Math.abs(y0-20)*20, x1*20, Math.abs(y1-20)*20, Color.BLACK);
+            } else {System.out.println("Input not valid");}
+        } catch (Exception E) {
+            System.out.println("Input not valid");
+        }
     }
+
 
     @Override
     public void drawCircle(int x, int y, int r) {
@@ -101,5 +117,13 @@ public class Controller implements Painter {
     @Override
     public void fillShape(Color c, Shape shape) {
 
+    }
+
+    // Public functions in order to test? How to initiate with private func and run tests
+    public boolean validateLineInput(int x0, int y0, int x1, int y1) {
+        return (Math.abs(x0 - x1) + Math.abs(y0 - y1) != 0);
+    }
+    public boolean validateRectangleInput(int x0, int y0, int x1, int y1) {
+        return ((Math.abs(x0 - x1) != 0 && (Math.abs(y0 - y1) != 0)));
     }
 }

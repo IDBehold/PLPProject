@@ -42,7 +42,7 @@ class RgbBitmap(val width: Int, val height: Int, val x0: Int, val y0: Int, val x
 
   def setText(x: Int, y: Int, t: String, c: Color) = {
     val g = image.getGraphics()
-    g.setFont(new Font ("Arial Black", Font.BOLD, 12))
+    g.setFont(new Font ("Arial Black", Font.BOLD, 10))
     g.setColor(c)
     g.drawString(t, x, y)
   }
