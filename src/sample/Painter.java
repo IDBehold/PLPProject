@@ -15,6 +15,6 @@ public interface Painter {
     void drawTextAt(int x, int y, String t);
 
     void drawShapes(Color c, List<Draw.Shape> shapes);
-    void fillShape(Color c, Shape shape);
+    void fillShape(Color c, Draw.Shape shape);
 
 }

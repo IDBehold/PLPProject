@@ -13,7 +13,6 @@ import scala.RgbBitmap;
 
 
 import java.awt.*;
-import java.awt.Shape;
 
 import static scala.Draw.*;
 
@@ -63,6 +62,8 @@ public class Controller implements Painter {
         ImageView imageView = new ImageView();
         imageView.setImage(image);
 
+        // Clear image container and add new imageView
+        imageContainer.getChildren().clear();
         imageContainer.getChildren().addAll(imageView);
     }
 
@@ -115,7 +116,7 @@ public class Controller implements Painter {
     }
 
     @Override
-    public void fillShape(Color c, Shape shape) {
+    public void fillShape(Color c, Draw.Shape shape) {
 
     }
 

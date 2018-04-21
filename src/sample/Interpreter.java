@@ -94,18 +94,42 @@ public class Interpreter {
         int startIndex = 0;
         int endIndex = 0;
         boolean findEnd = false;
+        boolean lookForStartingSpace = true;
+        int openBracketsCounter = 0;
 
         while (pos < command.length()) {
             if (!Character.toString(command.charAt(pos)).matches("[a-zA-Z0-9\\s]|[(]|[)]")) {
                 throw new IllegalStateException("Invalid command");
             }
-            if (Character.toString(command.charAt(pos)).matches("[(]") && !findEnd) {
-                startIndex = pos;
-                findEnd = true;
+
+            if (openBracketsCounter == 0) {
+                if (command.charAt(pos) == ' ' && lookForStartingSpace) {
+                    lookForStartingSpace = false;
+                    startIndex = pos + 1;
+                } else if (command.charAt(pos) == ' ' && !lookForStartingSpace) {
+                    lookForStartingSpace = true;
+                    endIndex = pos;
+                    result.add(command.substring(startIndex, endIndex));
+                    if (Character.toString(command.charAt(pos + 1)).matches("[0-9]")) {
+                        startIndex = pos + 1;
+                        lookForStartingSpace = false;
+                    }
+                } else if (pos == command.length() - 1 && Character.toString(command.charAt(pos)).matches("[0-9]") && !lookForStartingSpace) {
+                    endIndex = pos + 1;
+                    result.add(command.substring(startIndex, endIndex));
+                }
             }
-            if (Character.toString(command.charAt(pos)).matches("[)]") && findEnd) {
+
+            if (command.charAt(pos) == '(') {
+                lookForStartingSpace = true;
+                openBracketsCounter++;
+                startIndex = pos + 1;
+            } else if (command.charAt(pos) == ')') {
+                openBracketsCounter--;
+            }
+
+            if (openBracketsCounter == 0 && command.charAt(pos) == ')') {
                 endIndex = pos;
-                findEnd = false;
                 result.add(command.substring(startIndex, endIndex));
             }
             pos++;
