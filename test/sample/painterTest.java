@@ -4,16 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import sample.Controller;
-import sample.Painter;
-import sample.Util.Command;
-
-import java.beans.Transient;
-import java.util.List;
-
-import static org.mockito.Mockito.mock;
-
-public class PainterTest {
+public class painterTest {
     private Painter painter;
     private Controller uut;
     
