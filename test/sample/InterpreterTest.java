@@ -112,15 +112,15 @@ public class InterpreterTest {
 
     @Test
     public void createCommands_higherOrderFunctions_parameterCount(){
-        List<String> commands = interpreter.splitIntoCommands("(function (foo 12 12) (LINE (2 2) (22 2)))\n\t(FILL RED (CIRCLE (35 66) 5) (LINE (2 2) (5 5)))");
+        List<String> commands = interpreter.splitIntoCommands("(draw (foo 12 12) (LINE (2 2) (22 2)))\n\t(FILL (RED) (CIRCLE (35 66) 5) (LINE (2 2) (5 5)))");
         List<Command> commandList = interpreter.createCommands(commands);
-        Assert.assertEquals(2, commandList.get(0).getParameters().size());
-        Assert.assertEquals(3, commandList.get(1).getParameters().size());
+        Assert.assertEquals(2, commandList.get(0).getHigherOrderFunctions().size());
+        Assert.assertEquals(3, commandList.get(1).getHigherOrderFunctions().size());
     }
 
     @Test
     public void createCommands_higherOrderFunctions_parameterContent(){
-        List<String> commands = interpreter.splitIntoCommands("(function (foo 12 12) (LINE (2 2) (22 2)))\n\t(FILL RED (CIRCLE (35 66) 5) (LINE (2 2) (5 5)))");
+        List<String> commands = interpreter.splitIntoCommands("(draw (foo 12 12) (LINE (2 2) (22 2)))\n\t(FILL RED (CIRCLE (35 66) 5) (LINE (2 2) (5 5)))");
         List<Command> commandList = interpreter.createCommands(commands);
         Assert.assertEquals("foo 12 12", commandList.get(0).getParameters().get(0));
         Assert.assertEquals("LINE (2 2) (22 2)", commandList.get(0).getParameters().get(1));
@@ -128,6 +128,4 @@ public class InterpreterTest {
         Assert.assertEquals("CIRCLE (35 66) 5", commandList.get(1).getParameters().get(1));
         Assert.assertEquals("LINE (2 2) (5 5)", commandList.get(1).getParameters().get(2));
     }
-
-
 }
