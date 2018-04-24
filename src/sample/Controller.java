@@ -121,10 +121,10 @@ public class Controller implements Painter {
     }
 
     // Public functions in order to test? How to initiate with private func and run tests
-    public boolean validateLineInput(int x0, int y0, int x1, int y1) {
+    boolean validateLineInput(int x0, int y0, int x1, int y1) {
         return (Math.abs(x0 - x1) + Math.abs(y0 - y1) != 0);
     }
-    public boolean validateRectangleInput(int x0, int y0, int x1, int y1) {
+    boolean validateRectangleInput(int x0, int y0, int x1, int y1) {
         return ((Math.abs(x0 - x1) != 0 && (Math.abs(y0 - y1) != 0)));
     }
 }
