@@ -2,8 +2,7 @@ package sample;
 
 import scala.Draw;
 
-import java.awt.*;
-import java.util.List;
+import java.awt.Color;
 
 public interface Painter {
 
@@ -14,7 +13,7 @@ public interface Painter {
     void drawCircle(int x, int y, int r);
     void drawTextAt(int x, int y, String t);
 
-    void drawShapes(Color c, List<Draw.Shape> shapes);
+    void drawShapes(Color c, Draw.ShapeList shapes);
     void fillShape(Color c, Draw.Shape shape);
 
 }

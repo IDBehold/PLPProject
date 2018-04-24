@@ -8,13 +8,21 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import scala.Draw;
+import scala.Draw.Rectangle;
 import scala.Grid;
 import scala.RgbBitmap;
 
+import java.awt.Color;
 
-import java.awt.*;
-
-import static scala.Draw.*;
+import static scala.Draw.Cons;
+import static scala.Draw.Line;
+import static scala.Draw.Nil;
+import static scala.Draw.circle;
+import static scala.Draw.draw;
+import static scala.Draw.fill;
+import static scala.Draw.line;
+import static scala.Draw.rectangle;
+import static scala.Draw.textAt;
 
 public class Controller implements Painter {
     @FXML
@@ -40,23 +48,17 @@ public class Controller implements Painter {
     @FXML
     public void submit() {
         setBoundingBox(2,2,18,18); // Always first in input field
-//        drawLine(2,2,4,4);
-//        drawLine(2,18,4,16);
-//        drawRectangle(4,4,12,16);
-//        drawLine(12,4, 18,2);
-//        drawLine(12,16,18,18);
-
-        drawCircle(10,10,5);
-        drawLine(10,10,15,10);
-        drawLine(10,10,13,14);
 
         ErrorMessages.setText(Integer.toString((interpreter.splitIntoCommands(InputField.getText()).size())));
-//        Cons shapeList = new Cons(new Line(100, 100, 200, 200), new Cons(new Line(0, 0, 150, 150), new Cons(new Rectangle(30,30,50,50), new Cons(new Rectangle(100,90, 75, 350), new Cons(new Rectangle(200,200,100,100), new Nil())))));
-//        circleFill(rgbBitmap, 150, 150, 75, Color.CYAN);
-//
-//        Slices sliceList = new Slices(new percentage(25), new Slices(new percentage(25), new Slices(new percentage(50), new Base())));
-//        drawPieChart(rgbBitmap,sliceList);
+        Cons shapeList = new Cons(new Line(2, 2, 16, 16), new Cons(new Line(4, 4, 15, 15), new Cons(new Rectangle(3,3,5,5), new Cons(new Rectangle(10,9, 7, 3), new Cons(new Rectangle(1,1,1,1), new Nil())))));
 
+        drawRectangle(1,1,1,1);
+        fillShape(Color.GREEN, new Rectangle(5,5,15,15));
+
+        drawShapes(Color.BLACK, shapeList);
+
+        drawCircle(10,10,0);
+        drawCircle(10,10,-10);
 
         Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
         ImageView imageView = new ImageView();
@@ -72,33 +74,18 @@ public class Controller implements Painter {
         rgbBitmap = new RgbBitmap((int) imageContainer.getWidth(), (int) imageContainer.getHeight(), x0*20, y0*20, x1*20, y1*20);
         rgbBitmap.fill(Color.WHITE);
         Grid.draw(rgbBitmap, (int) imageContainer.getWidth(), (int) imageContainer.getHeight());
-        if (validateRectangleInput(x0,y0,x1,y1)) {
-            rectangle(rgbBitmap,x0*20, y0*20, x1*20, y1*20, Color.BLACK);
-        } else {System.out.println("Input not valid");}
+        rectangle(rgbBitmap,x0*20, y0*20, x1*20, y1*20, Color.BLACK);
     }
 
     @Override
     public void drawLine(int x0, int y0, int x1, int y1) {
-        try {
-            if (validateLineInput(x0, y0, x1, y1)) {
-                line(rgbBitmap, x0 * 20, Math.abs(y0 - 20) * 20, x1 * 20, Math.abs(y1 - 20) * 20, Color.BLACK);
-            } else {System.out.println("Input not valid");}
-        } catch (Exception E) {
-            System.out.println("Input not valid");
-        }
+        line(rgbBitmap, x0 * 20, Math.abs(y0 - 20) * 20, x1 * 20, Math.abs(y1 - 20) * 20, Color.BLACK);
     }
 
     @Override
     public void drawRectangle(int x0, int y0, int x1, int y1) {
-        try {
-            if (validateRectangleInput(x0, y0, x1, y1)){
-                rectangle(rgbBitmap, x0*20, Math.abs(y0-20)*20, x1*20, Math.abs(y1-20)*20, Color.BLACK);
-            } else {System.out.println("Input not valid");}
-        } catch (Exception E) {
-            System.out.println("Input not valid");
-        }
+        rectangle(rgbBitmap, x0*20, Math.abs(y0-20)*20, x1*20, Math.abs(y1-20)*20, Color.BLACK);
     }
-
 
     @Override
     public void drawCircle(int x, int y, int r) {
@@ -111,16 +98,17 @@ public class Controller implements Painter {
     }
 
     @Override
-    public void drawShapes(Color c, java.util.List<Draw.Shape> shapes) {
-
+    public void drawShapes(Color c, Draw.ShapeList shapes) {
+        draw(rgbBitmap, Color.BLACK, shapes);
     }
 
     @Override
     public void fillShape(Color c, Draw.Shape shape) {
-
+        fill(rgbBitmap, c, shape);
     }
 
-    // Public functions in order to test? How to initiate with private func and run tests
+
+    // Redundant functions - Validation is happening in Draw.scala
     boolean validateLineInput(int x0, int y0, int x1, int y1) {
         return (Math.abs(x0 - x1) + Math.abs(y0 - y1) != 0);
     }

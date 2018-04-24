@@ -10,12 +10,12 @@ public class painterTest {
     
     @Before
     public void setup() {
+        // Refactor to test Draw.scala validation functions instead
         uut = new Controller();
 
     }
     @Test
     public void validateLineInput_correctInput_shouldReturnTrue() {
-//        Assert.assertTrue(uut.validateLineInput(1, 1, 3, 3));
         Assert.assertTrue(uut.validateLineInput(2,1,1,1));
         Assert.assertTrue(uut.validateLineInput(1,2,1,1));
         Assert.assertTrue(uut.validateLineInput(1,1,2,1));
