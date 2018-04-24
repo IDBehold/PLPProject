@@ -50,8 +50,21 @@ public class Interpreter {
 
     public List<Command> createCommands(List<String> commands) {
         List<Command> result = new ArrayList<>();
-        for (String command : commands) {
-            result.add(new Command(getCommandName(command), getCommandParameters(command)));
+        int counter = 0;
+        while(counter < commands.size()) {
+            String command = commands.get(counter);
+            String commandName = getCommandName(command);
+            if(commandName.toLowerCase().equals("draw") || commandName.toLowerCase().equals("fill")){
+                List<String> nestedCommands = splitIntoCommands(command);
+                Command e = new Command(getCommandName(command));
+                e.setHigherOrderFunctions(createCommands(nestedCommands));
+                result.add(e);
+            } else {
+                Command e = new Command(getCommandName(command));
+                e.setParameters(getCommandParameters(command));
+                result.add(e);
+            }
+            counter++;
         }
         return result;
     }
