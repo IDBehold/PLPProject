@@ -42,7 +42,7 @@ public class Controller implements Painter {
     @FXML
     public void initialize() {
         interpreter = new Interpreter(this);
-        InputField.setText("(BOUNDING-BOX (1 1) (10 10))\n" +
+        InputField.setText("(BOUNDING-BOX (1 1) (20 20))\n" +
                 "(LINE (1 1) (1 20))\n" +
                 "(LINE (1 1) (2 20))\n" +
                 "(LINE (1 1) (3 20))\n" +
@@ -62,7 +62,26 @@ public class Controller implements Painter {
                 "(LINE (1 1) (17 20))\n" +
                 "(LINE (1 1) (18 20))\n" +
                 "(LINE (1 1) (19 20))\n" +
-                "(LINE (1 1) (20 20))");
+                "(LINE (1 1) (20 20))\n" +
+                "(LINE (1 1) (20 19))\n" +
+                "(LINE (1 1) (20 18))\n" +
+                "(LINE (1 1) (20 17))\n" +
+                "(LINE (1 1) (20 16))\n" +
+                "(LINE (1 1) (20 15))\n" +
+                "(LINE (1 1) (20 14))\n" +
+                "(LINE (1 1) (20 13))\n" +
+                "(LINE (1 1) (20 12))\n" +
+                "(LINE (1 1) (20 11))\n" +
+                "(LINE (1 1) (20 10))\n" +
+                "(LINE (1 1) (20 9))\n" +
+                "(LINE (1 1) (20 8))\n" +
+                "(LINE (1 1) (20 7))\n" +
+                "(LINE (1 1) (20 6))\n" +
+                "(LINE (1 1) (20 5))\n" +
+                "(LINE (1 1) (20 4))\n" +
+                "(LINE (1 1) (20 3))\n" +
+                "(LINE (1 1) (20 2))\n" +
+                "(LINE (1 1) (20 1))");
     }
 
     @FXML
