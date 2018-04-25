@@ -42,10 +42,14 @@ public class Interpreter {
                     painter.drawLine(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]), Integer.parseInt(split2[0]), Integer.parseInt(split2[1]));
                     break;
                 }
-//                case "circle":
-//                    painter.drawCircle();
-//                    break;
-                case "rectangle":{
+                case "circle": {
+                    String parameter1 = command.getParameter(0);
+                    String[] split1 = parameter1.split(" ");
+                    String parameter2 = command.getParameter(1);
+                    painter.drawCircle(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]), Integer.parseInt(parameter2));
+                    break;
+                }
+                case "rectangle": {
                     String parameter1 = command.getParameter(0);
                     String[] split1 = parameter1.split(" ");
                     String parameter2 = command.getParameter(1);
@@ -54,9 +58,13 @@ public class Interpreter {
                     painter.drawRectangle(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]), Integer.parseInt(split2[0]), Integer.parseInt(split2[1]));
                     break;
                 }
-//                case "text-at":
-//                    painter.drawTextAt();
-//                    break;
+                case "text-at": {
+                    String parameter1 = command.getParameter(0);
+                    String[] split1 = parameter1.split(" ");
+                    String parameter2 = command.getParameter(1);
+                    painter.drawTextAt(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]), parameter2);
+                    break;
+                }
 //                case "draw":
 //                    painter.drawShapes();
 //                    break;
@@ -166,7 +174,7 @@ public class Interpreter {
                         startIndex = pos + 1;
                         lookForStartingSpace = false;
                     }
-                } else if (pos == command.length() - 1 && Character.toString(command.charAt(pos)).matches("[0-9]") && !lookForStartingSpace) {
+                } else if (pos == command.length() - 1 && Character.toString(command.charAt(pos)).matches("[a-zA-Z0-9]") && !lookForStartingSpace) {
                     endIndex = pos + 1;
                     result.add(command.substring(startIndex, endIndex));
                 }

@@ -103,15 +103,26 @@ public class InterpreterTest {
 
     @Test
     public void createCommands_correctCommandParameter() {
-        List<String> commands = interpreter.splitIntoCommands("(function (12 12) 35) (foo (35 66) (2 2))\n(test (2 100) test 10)");
+        List<String> commands = interpreter.splitIntoCommands("(function (12 12) 35) (foo (35 66) (2 2))\n(test (2 100) hejsa 10)");
         List<Command> commandList = interpreter.createCommands(commands);
         Assert.assertEquals("12 12", commandList.get(0).getParameter(0));
         Assert.assertEquals("35", commandList.get(0).getParameter(1));
         Assert.assertEquals("35 66", commandList.get(1).getParameter(0));
         Assert.assertEquals("2 2", commandList.get(1).getParameter(1));
         Assert.assertEquals("2 100", commandList.get(2).getParameter(0));
-        Assert.assertEquals("test", commandList.get(2).getParameter(1));
+        Assert.assertEquals("hejsa", commandList.get(2).getParameter(1));
         Assert.assertEquals("10", commandList.get(2).getParameter(2));
+    }
+
+    @Test
+    public void createCommands_TextAt(){
+        List<String> commands = interpreter.splitIntoCommands("(TEXT-AT (12 12) Hejsa)");
+        List<Command> commandList = interpreter.createCommands(commands);
+
+        Assert.assertEquals("TEXT-AT", commandList.get(0).getName());
+        Assert.assertEquals("12 12", commandList.get(0).getParameter(0));
+        Assert.assertEquals("Hejsa", commandList.get(0).getParameter(1));
+
     }
 
     @Test
