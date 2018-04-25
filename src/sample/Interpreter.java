@@ -3,6 +3,8 @@ package sample;
 import sample.Util.Command;
 import scala.Char;
 
+import java.awt.*;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -80,7 +82,6 @@ public class Interpreter {
             }
         }
         return result;
-
     }
 
     private String getCommandName(String command) {
@@ -140,5 +141,17 @@ public class Interpreter {
         }
 
         return result;
+    }
+
+    public Color parseColor(String colorName)
+    {
+        Color color;
+        try {
+            Field field = Class.forName("java.awt.Color").getField("yellow");
+            color = (Color)field.get(null);
+        } catch (Exception e) {
+            color = Color.BLACK;
+        }
+        return color;
     }
 }
