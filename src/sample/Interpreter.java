@@ -3,6 +3,8 @@ package sample;
 import sample.Util.Command;
 import scala.Char;
 
+import java.awt.*;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,8 +58,10 @@ public class Interpreter {
             String commandName = getCommandName(command);
             if(commandName.toLowerCase().equals("draw") || commandName.toLowerCase().equals("fill")){
                 List<String> nestedCommands = splitIntoCommands(command);
+                List<String> parameters = getCommandParametersInHigherOrderFunctions(command);
                 Command e = new Command(getCommandName(command));
                 e.setHigherOrderFunctions(createCommands(nestedCommands));
+                e.setParameters(parameters);
                 result.add(e);
             } else {
                 Command e = new Command(getCommandName(command));
@@ -69,34 +73,22 @@ public class Interpreter {
         return result;
     }
 
+    private List<String> getCommandParametersInHigherOrderFunctions(String command) {
+        List<String> params = getCommandParameters(command);
+        List<String> result = new ArrayList<>();
+        for (String s : params) {
+            if(s.matches("[a-zA-Z]+")){
+                result.add(s);
+            }
+        }
+        return result;
+    }
+
     private String getCommandName(String command) {
         String[] split = command.split(" ");
 
-        if (split.length > 2 && split[0].matches("[a-zA-Z]+")) {
+        if (split.length > 0 && split[0].matches("[a-zA-Z]+")) {
             return split[0];
-        }
-        throw new IllegalStateException("No valid command name was found");
-    }
-
-    private String getCommandName_Old(String command) {
-        int pos = 0;
-        int startIndex = 0;
-        int endIndex = 0;
-        boolean commandNameFound = false;
-
-        while (pos < command.length()) {
-            if (Character.toString(command.charAt(pos)).matches("[a-zA-Z]") && !commandNameFound) {
-                startIndex = pos;
-                commandNameFound = true;
-            }
-            if (command.charAt(pos) == ' ' && commandNameFound) {
-                endIndex = pos;
-                String substring = command.substring(startIndex, endIndex);
-                if (substring.matches("[a-zA-Z]+")) {
-                    return substring;
-                }
-            }
-            pos++;
         }
         throw new IllegalStateException("No valid command name was found");
     }
@@ -151,12 +143,15 @@ public class Interpreter {
         return result;
     }
 
-    private List<String> getCommandParameters_Old(String command) {
-        ArrayList<String> result = new ArrayList<>();
-        String[] strings = command.split(" ");
-        for (int i = 1; i < strings.length; i++) {
-            result.add(strings[i].replace("(", "").replace(")", ""));
+    public Color parseColor(String colorName)
+    {
+        Color color;
+        try {
+            Field field = Class.forName("java.awt.Color").getField(colorName.toUpperCase());
+            color = (Color)field.get(null);
+        } catch (Exception e) {
+            color = Color.BLACK;
         }
-        return result;
+        return color;
     }
 }
