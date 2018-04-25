@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class InterpreterTest {
     private Painter painter;
@@ -162,6 +163,15 @@ public class InterpreterTest {
         Assert.assertEquals(Color.black, interpreter.parseColor(colors.get(7)));
         Assert.assertEquals(Color.BLUE, interpreter.parseColor(colors.get(8)));
         Assert.assertEquals(Color.PINK, interpreter.parseColor(colors.get(9)));
+    }
+
+    @Test
+    public void interpret_correctPainterFunctionCalled(){
+        interpreter.interpret("(LINE (2 2) (5 5))");
+        verify(painter).drawLine(2,2,5,5);
+
+        interpreter.interpret("(BOUNDING-BOX (1 1) (10 10))");
+        verify(painter).setBoundingBox(1,1,10,10);
 
     }
 }

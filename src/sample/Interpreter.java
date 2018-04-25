@@ -19,7 +19,54 @@ public class Interpreter {
     }
 
     public void interpret(String s) {
+        List<String> commandstrings = splitIntoCommands(s);
+        List<Command> commands = createCommands(commandstrings);
 
+        for (Command command : commands) {
+            switch (command.getName().toLowerCase()) {
+                case "bounding-box": {
+                    String parameter1 = command.getParameter(0);
+                    String[] split1 = parameter1.split(" ");
+                    String parameter2 = command.getParameter(1);
+                    String[] split2 = parameter2.split(" ");
+
+                    painter.setBoundingBox(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]), Integer.parseInt(split2[0]), Integer.parseInt(split2[1]));
+                    break;
+                }
+                case "line": {
+                    String parameter1 = command.getParameter(0);
+                    String[] split1 = parameter1.split(" ");
+                    String parameter2 = command.getParameter(1);
+                    String[] split2 = parameter2.split(" ");
+
+                    painter.drawLine(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]), Integer.parseInt(split2[0]), Integer.parseInt(split2[1]));
+                    break;
+                }
+//                case "circle":
+//                    painter.drawCircle();
+//                    break;
+                case "rectangle":{
+                    String parameter1 = command.getParameter(0);
+                    String[] split1 = parameter1.split(" ");
+                    String parameter2 = command.getParameter(1);
+                    String[] split2 = parameter2.split(" ");
+
+                    painter.drawRectangle(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]), Integer.parseInt(split2[0]), Integer.parseInt(split2[1]));
+                    break;
+                }
+//                case "text-at":
+//                    painter.drawTextAt();
+//                    break;
+//                case "draw":
+//                    painter.drawShapes();
+//                    break;
+//                case "fill":
+//                    painter.fillShape();
+//                    break;
+                default:
+                    throw new IllegalArgumentException(command.getName() + " is not a valid command");
+            }
+        }
 
     }
 
@@ -53,10 +100,10 @@ public class Interpreter {
     public List<Command> createCommands(List<String> commands) {
         List<Command> result = new ArrayList<>();
         int counter = 0;
-        while(counter < commands.size()) {
+        while (counter < commands.size()) {
             String command = commands.get(counter);
             String commandName = getCommandName(command);
-            if(commandName.toLowerCase().equals("draw") || commandName.toLowerCase().equals("fill")){
+            if (commandName.toLowerCase().equals("draw") || commandName.toLowerCase().equals("fill")) {
                 List<String> nestedCommands = splitIntoCommands(command);
                 List<String> parameters = getCommandParametersInHigherOrderFunctions(command);
                 Command e = new Command(getCommandName(command));
@@ -77,7 +124,7 @@ public class Interpreter {
         List<String> params = getCommandParameters(command);
         List<String> result = new ArrayList<>();
         for (String s : params) {
-            if(s.matches("[a-zA-Z]+")){
+            if (s.matches("[a-zA-Z]+")) {
                 result.add(s);
             }
         }
@@ -87,7 +134,7 @@ public class Interpreter {
     private String getCommandName(String command) {
         String[] split = command.split(" ");
 
-        if (split.length > 0 && split[0].matches("[a-zA-Z]+")) {
+        if (split.length > 0 && split[0].matches("[a-zA-Z\\-]+")) {
             return split[0];
         }
         throw new IllegalStateException("No valid command name was found");
@@ -103,7 +150,7 @@ public class Interpreter {
         int openBracketsCounter = 0;
 
         while (pos < command.length()) {
-            if (!Character.toString(command.charAt(pos)).matches("[a-zA-Z0-9\\s]|[(]|[)]")) {
+            if (!Character.toString(command.charAt(pos)).matches("[a-zA-Z0-9\\s\\-()]")) {
                 throw new IllegalStateException("Invalid command");
             }
 
@@ -143,12 +190,11 @@ public class Interpreter {
         return result;
     }
 
-    public Color parseColor(String colorName)
-    {
+    public Color parseColor(String colorName) {
         Color color;
         try {
             Field field = Class.forName("java.awt.Color").getField(colorName.toUpperCase());
-            color = (Color)field.get(null);
+            color = (Color) field.get(null);
         } catch (Exception e) {
             color = Color.BLACK;
         }

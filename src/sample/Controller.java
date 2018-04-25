@@ -47,18 +47,19 @@ public class Controller implements Painter {
 
     @FXML
     public void submit() {
-        setBoundingBox(2,2,18,18); // Always first in input field
+//        setBoundingBox(2,2,18,18); // Always first in input field
+        interpreter.interpret(InputField.getText());
 
-        ErrorMessages.setText(Integer.toString((interpreter.splitIntoCommands(InputField.getText()).size())));
-        Cons shapeList = new Cons(new Line(2, 2, 16, 16), new Cons(new Line(4, 4, 15, 15), new Cons(new Rectangle(3,3,5,5), new Cons(new Rectangle(10,9, 7, 3), new Cons(new Rectangle(1,1,1,1), new Nil())))));
-
-        drawRectangle(1,1,1,1);
-        fillShape(Color.GREEN, new Rectangle(5,5,15,15));
-
-        drawShapes(Color.BLACK, shapeList);
-
-        drawCircle(10,10,0);
-        drawCircle(10,10,-10);
+//        ErrorMessages.setText(Integer.toString((interpreter.splitIntoCommands(InputField.getText()).size())));
+//        Cons shapeList = new Cons(new Line(2, 2, 16, 16), new Cons(new Line(4, 4, 15, 15), new Cons(new Rectangle(3,3,5,5), new Cons(new Rectangle(10,9, 7, 3), new Cons(new Rectangle(1,1,1,1), new Nil())))));
+//
+//        drawRectangle(1,1,1,1);
+//        fillShape(Color.GREEN, new Rectangle(5,5,15,15));
+//
+//        drawShapes(Color.BLACK, shapeList);
+//
+//        drawCircle(10,10,0);
+//        drawCircle(10,10,-10);
 
         Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
         ImageView imageView = new ImageView();
@@ -74,7 +75,7 @@ public class Controller implements Painter {
         rgbBitmap = new RgbBitmap((int) imageContainer.getWidth(), (int) imageContainer.getHeight(), x0*20, y0*20, x1*20, y1*20);
         rgbBitmap.fill(Color.WHITE);
         Grid.draw(rgbBitmap, (int) imageContainer.getWidth(), (int) imageContainer.getHeight());
-        rectangle(rgbBitmap,x0*20, y0*20, x1*20, y1*20, Color.BLACK);
+        rectangle(rgbBitmap,x0*20, Math.abs(y0-20)*20, x1*20, Math.abs(y1-20)*20, Color.BLACK);
     }
 
     @Override
