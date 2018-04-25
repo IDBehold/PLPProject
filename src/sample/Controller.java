@@ -72,7 +72,7 @@ public class Controller implements Painter {
 
     @Override
     public void setBoundingBox(int x0, int y0, int x1, int y1) {
-        rgbBitmap = new RgbBitmap((int) imageContainer.getWidth(), (int) imageContainer.getHeight(), x0*20, y0*20, x1*20, y1*20);
+        rgbBitmap = new RgbBitmap((int) imageContainer.getWidth(), (int) imageContainer.getHeight(), x0*20, Math.abs(y0-20)*20, x1*20, Math.abs(y1-20)*20);
         rgbBitmap.fill(Color.WHITE);
         Grid.draw(rgbBitmap, (int) imageContainer.getWidth(), (int) imageContainer.getHeight());
         rectangle(rgbBitmap,x0*20, Math.abs(y0-20)*20, x1*20, Math.abs(y1-20)*20, Color.BLACK);

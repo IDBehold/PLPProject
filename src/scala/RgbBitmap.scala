@@ -3,7 +3,6 @@ package scala
 import java.awt.image.BufferedImage
 import java.awt.{Color, Font}
 
-import scala.Draw.{Base, Slice, SliceList, Slices}
 import scala.annotation.tailrec
 
 class RgbBitmap(val width: Int, val height: Int, val x0: Int, val y0: Int, val x1: Int, val y1: Int) {
@@ -35,7 +34,7 @@ class RgbBitmap(val width: Int, val height: Int, val x0: Int, val y0: Int, val x
   }
 
   private def validateBounds(x: Int, y: Int): Boolean = {
-    (x >= x0 && x <= x1 && y >= y0 && y <= y1)
+    (x >= x0 && x <= x1 && y <= y0 && y >= y1)
   }
 
   def getPixel(x: Int, y: Int) = new Color(image.getRGB(x, y))
