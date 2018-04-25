@@ -56,8 +56,10 @@ public class Interpreter {
             String commandName = getCommandName(command);
             if(commandName.toLowerCase().equals("draw") || commandName.toLowerCase().equals("fill")){
                 List<String> nestedCommands = splitIntoCommands(command);
+                List<String> parameters = getCommandParametersInHigherOrderFunctions(command);
                 Command e = new Command(getCommandName(command));
                 e.setHigherOrderFunctions(createCommands(nestedCommands));
+                e.setParameters(parameters);
                 result.add(e);
             } else {
                 Command e = new Command(getCommandName(command));
@@ -67,6 +69,18 @@ public class Interpreter {
             counter++;
         }
         return result;
+    }
+
+    private List<String> getCommandParametersInHigherOrderFunctions(String command) {
+        List<String> params = getCommandParameters(command);
+        List<String> result = new ArrayList<>();
+        for (String s : params) {
+            if(s.matches("[a-zA-Z]+")){
+                result.add(s);
+            }
+        }
+        return result;
+
     }
 
     private String getCommandName(String command) {
