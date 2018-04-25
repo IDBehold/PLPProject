@@ -22,8 +22,16 @@ public class Command {
         return parameters;
     }
 
+    public String getParameter(int i){
+        return parameters.get(i);
+    }
+
     public List<Command> getHigherOrderFunctions() {
         return higherOrderFunctions;
+    }
+
+    public Command getHigherOrderFunction(int i){
+        return higherOrderFunctions.get(i);
     }
 
     public void setParameters(List<String> parameters) {

@@ -72,31 +72,8 @@ public class Interpreter {
     private String getCommandName(String command) {
         String[] split = command.split(" ");
 
-        if (split.length > 2 && split[0].matches("[a-zA-Z]+")) {
+        if (split.length > 0 && split[0].matches("[a-zA-Z]+")) {
             return split[0];
-        }
-        throw new IllegalStateException("No valid command name was found");
-    }
-
-    private String getCommandName_Old(String command) {
-        int pos = 0;
-        int startIndex = 0;
-        int endIndex = 0;
-        boolean commandNameFound = false;
-
-        while (pos < command.length()) {
-            if (Character.toString(command.charAt(pos)).matches("[a-zA-Z]") && !commandNameFound) {
-                startIndex = pos;
-                commandNameFound = true;
-            }
-            if (command.charAt(pos) == ' ' && commandNameFound) {
-                endIndex = pos;
-                String substring = command.substring(startIndex, endIndex);
-                if (substring.matches("[a-zA-Z]+")) {
-                    return substring;
-                }
-            }
-            pos++;
         }
         throw new IllegalStateException("No valid command name was found");
     }
@@ -148,15 +125,6 @@ public class Interpreter {
             pos++;
         }
 
-        return result;
-    }
-
-    private List<String> getCommandParameters_Old(String command) {
-        ArrayList<String> result = new ArrayList<>();
-        String[] strings = command.split(" ");
-        for (int i = 1; i < strings.length; i++) {
-            result.add(strings[i].replace("(", "").replace(")", ""));
-        }
         return result;
     }
 }

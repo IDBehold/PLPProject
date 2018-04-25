@@ -77,15 +77,15 @@ public class InterpreterTest {
     public void createCommands_correctCommandParameter_IntegerParameters() {
         List<String> commands = interpreter.splitIntoCommands("(function 12 13 35) (foo 35 66)\n(test 1 2 2 99)");
         List<Command> commandList = interpreter.createCommands(commands);
-        Assert.assertEquals("12", commandList.get(0).getParameters().get(0));
-        Assert.assertEquals("13", commandList.get(0).getParameters().get(1));
-        Assert.assertEquals("35", commandList.get(0).getParameters().get(2));
-        Assert.assertEquals("35", commandList.get(1).getParameters().get(0));
-        Assert.assertEquals("66", commandList.get(1).getParameters().get(1));
-        Assert.assertEquals("1", commandList.get(2).getParameters().get(0));
-        Assert.assertEquals("2", commandList.get(2).getParameters().get(1));
-        Assert.assertEquals("2", commandList.get(2).getParameters().get(2));
-        Assert.assertEquals("99", commandList.get(2).getParameters().get(3));
+        Assert.assertEquals("12", commandList.get(0).getParameter(0));
+        Assert.assertEquals("13", commandList.get(0).getParameter(1));
+        Assert.assertEquals("35", commandList.get(0).getParameter(2));
+        Assert.assertEquals("35", commandList.get(1).getParameter(0));
+        Assert.assertEquals("66", commandList.get(1).getParameter(1));
+        Assert.assertEquals("1", commandList.get(2).getParameter(0));
+        Assert.assertEquals("2", commandList.get(2).getParameter(1));
+        Assert.assertEquals("2", commandList.get(2).getParameter(2));
+        Assert.assertEquals("99", commandList.get(2).getParameter(3));
     }
 
     @Test
@@ -101,18 +101,18 @@ public class InterpreterTest {
     public void createCommands_correctCommandParameter() {
         List<String> commands = interpreter.splitIntoCommands("(function (12 12) 35) (foo (35 66) (2 2))\n(test (2 100) test 10)");
         List<Command> commandList = interpreter.createCommands(commands);
-        Assert.assertEquals("12 12", commandList.get(0).getParameters().get(0));
-        Assert.assertEquals("35", commandList.get(0).getParameters().get(1));
-        Assert.assertEquals("35 66", commandList.get(1).getParameters().get(0));
-        Assert.assertEquals("2 2", commandList.get(1).getParameters().get(1));
-        Assert.assertEquals("2 100", commandList.get(2).getParameters().get(0));
-        Assert.assertEquals("test", commandList.get(2).getParameters().get(1));
-        Assert.assertEquals("10", commandList.get(2).getParameters().get(2));
+        Assert.assertEquals("12 12", commandList.get(0).getParameter(0));
+        Assert.assertEquals("35", commandList.get(0).getParameter(1));
+        Assert.assertEquals("35 66", commandList.get(1).getParameter(0));
+        Assert.assertEquals("2 2", commandList.get(1).getParameter(1));
+        Assert.assertEquals("2 100", commandList.get(2).getParameter(0));
+        Assert.assertEquals("test", commandList.get(2).getParameter(1));
+        Assert.assertEquals("10", commandList.get(2).getParameter(2));
     }
 
     @Test
     public void createCommands_higherOrderFunctions_parameterCount(){
-        List<String> commands = interpreter.splitIntoCommands("(draw (foo 12 12) (LINE (2 2) (22 2)))\n\t(FILL (RED) (CIRCLE (35 66) 5) (LINE (2 2) (5 5)))");
+        List<String> commands = interpreter.splitIntoCommands("(draw (foo 12 13) (LINE (2 2) (22 2)))\n\t(FILL (RED) (CIRCLE (35 66) 5) (LINE (2 2) (5 5)))");
         List<Command> commandList = interpreter.createCommands(commands);
         Assert.assertEquals(2, commandList.get(0).getHigherOrderFunctions().size());
         Assert.assertEquals(3, commandList.get(1).getHigherOrderFunctions().size());
@@ -120,12 +120,28 @@ public class InterpreterTest {
 
     @Test
     public void createCommands_higherOrderFunctions_parameterContent(){
-        List<String> commands = interpreter.splitIntoCommands("(draw (foo 12 12) (LINE (2 2) (22 2)))\n\t(FILL RED (CIRCLE (35 66) 5) (LINE (2 2) (5 5)))");
+        List<String> commands = interpreter.splitIntoCommands("(draw (foo 12 13) (LINE (2 2) (22 2)))\n\t(FILL (RED) (CIRCLE (35 66) 5) (LINE (2 2) (5 5)))");
         List<Command> commandList = interpreter.createCommands(commands);
-        Assert.assertEquals("foo 12 12", commandList.get(0).getParameters().get(0));
-        Assert.assertEquals("LINE (2 2) (22 2)", commandList.get(0).getParameters().get(1));
-        Assert.assertEquals("RED", commandList.get(1).getParameters().get(0));
-        Assert.assertEquals("CIRCLE (35 66) 5", commandList.get(1).getParameters().get(1));
-        Assert.assertEquals("LINE (2 2) (5 5)", commandList.get(1).getParameters().get(2));
+        Assert.assertEquals("draw", commandList.get(0).getName());
+
+        Assert.assertEquals("foo", commandList.get(0).getHigherOrderFunction(0).getName());
+        Assert.assertEquals("12", commandList.get(0).getHigherOrderFunction(0).getParameter(0));
+        Assert.assertEquals("13", commandList.get(0).getHigherOrderFunction(0).getParameter(1));
+
+        Assert.assertEquals("LINE", commandList.get(0).getHigherOrderFunction(1).getName());
+        Assert.assertEquals("2 2", commandList.get(0).getHigherOrderFunction(1).getParameter(0));
+        Assert.assertEquals("22 2", commandList.get(0).getHigherOrderFunction(1).getParameter(1));
+
+        Assert.assertEquals("FILL", commandList.get(1).getName());
+
+        Assert.assertEquals("RED", commandList.get(1).getHigherOrderFunction(0).getName());
+
+        Assert.assertEquals("CIRCLE", commandList.get(1).getHigherOrderFunction(1).getName());
+        Assert.assertEquals("35 66", commandList.get(1).getHigherOrderFunction(1).getParameter(0));
+        Assert.assertEquals("5", commandList.get(1).getHigherOrderFunction(1).getParameter(1));
+
+        Assert.assertEquals("LINE", commandList.get(1).getHigherOrderFunction(2).getName());
+        Assert.assertEquals("2 2", commandList.get(1).getHigherOrderFunction(2).getParameter(0));
+        Assert.assertEquals("5 5", commandList.get(1).getHigherOrderFunction(2).getParameter(1));
     }
 }
