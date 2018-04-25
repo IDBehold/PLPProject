@@ -147,7 +147,7 @@ public class Interpreter {
     {
         Color color;
         try {
-            Field field = Class.forName("java.awt.Color").getField("yellow");
+            Field field = Class.forName("java.awt.Color").getField(colorName.toUpperCase());
             color = (Color)field.get(null);
         } catch (Exception e) {
             color = Color.BLACK;

@@ -5,6 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import sample.Util.Command;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
@@ -144,5 +147,21 @@ public class InterpreterTest {
         Assert.assertEquals("LINE", commandList.get(1).getHigherOrderFunction(1).getName());
         Assert.assertEquals("2 2", commandList.get(1).getHigherOrderFunction(1).getParameter(0));
         Assert.assertEquals("5 5", commandList.get(1).getHigherOrderFunction(1).getParameter(1));
+    }
+
+    @Test
+    public void parseColor_LotsOfStrings_TheColorOrBlackAsDefault(){
+        List<String> colors = new ArrayList<>(Arrays.asList("RED", "green", "Cyan", "NoColor","Color.RED","","Evil","PurPlE", "blue", "pINK"));
+        Assert.assertEquals(Color.RED, interpreter.parseColor(colors.get(0)));
+        Assert.assertEquals(Color.GREEN, interpreter.parseColor(colors.get(1)));
+        Assert.assertEquals(Color.cyan, interpreter.parseColor(colors.get(2)));
+        Assert.assertEquals(Color.black, interpreter.parseColor(colors.get(3)));
+        Assert.assertEquals(Color.black, interpreter.parseColor(colors.get(4)));
+        Assert.assertEquals(Color.black, interpreter.parseColor(colors.get(5)));
+        Assert.assertEquals(Color.black, interpreter.parseColor(colors.get(6)));
+        Assert.assertEquals(Color.black, interpreter.parseColor(colors.get(7)));
+        Assert.assertEquals(Color.BLUE, interpreter.parseColor(colors.get(8)));
+        Assert.assertEquals(Color.PINK, interpreter.parseColor(colors.get(9)));
+
     }
 }
