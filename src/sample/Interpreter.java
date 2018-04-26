@@ -75,14 +75,38 @@ public class Interpreter {
                     painter.drawShapes(parseColor(color), list);
                     break;
                 }
-//                case "fill":
-//                    painter.fillShape();
-//                    break;
+                case "fill": {
+                    String color = command.getParameter(0);
+                    Draw.Shape shape = getShapeToFill(command.getHigherOrderFunction(0));
+                    painter.fillShape(parseColor(color), shape);
+                    break;
+                }
                 default:
                     throw new IllegalArgumentException(command.getName() + " is not a valid command");
             }
         }
 
+    }
+
+    private Draw.Shape getShapeToFill(Command command) {
+        switch (command.getName().toLowerCase()){
+            case "rectangle": {
+                String parameter1 = command.getParameter(0);
+                String[] split1 = parameter1.split(" ");
+                String parameter2 = command.getParameter(1);
+                String[] split2 = parameter2.split(" ");
+                return new Draw.Rectangle(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]), Integer.parseInt(split2[0]), Integer.parseInt(split2[1]));
+            }
+            case "circle": {
+                String parameter1 = command.getParameter(0);
+                String[] split1 = parameter1.split(" ");
+                String parameter2 = command.getParameter(1);
+                return new Draw.Circle(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]), Integer.parseInt(parameter2));
+            }
+            default: {
+                throw new IllegalArgumentException(command.getName() + " is not a valid command parameter for FILL");
+            }
+        }
     }
 
     private Draw.ShapeList appendShape(Command command, Draw.ShapeList tail) {
@@ -114,7 +138,7 @@ public class Interpreter {
                 return new Draw.Cons(new Draw.Circle(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]), Integer.parseInt(parameter2)), tail);
             }
             default: {
-                throw new IllegalArgumentException(command.getName() + " is not a valid higher order command");
+                throw new IllegalArgumentException(command.getName() + " is not a valid command parameter for DRAW");
             }
         }
     }
