@@ -2,6 +2,8 @@ package scala
 
 import java.awt.Color
 
+import sample.Util.Constants.Scaling
+
 object Draw {
   sealed abstract class ShapeList
   case class Cons(head:Shape, tail: ShapeList) extends ShapeList
@@ -18,7 +20,8 @@ object Draw {
     if (validateLineInput(x0, y0, x1, y1)) {
       BitmapOps.bresenham(rgbBitmap, x0, y0, x1, y1, c)
     } else {
-          println("Line values not valid")
+      println("Line values not valid")
+      throw new IllegalArgumentException
     }
   }
 
@@ -34,6 +37,7 @@ object Draw {
       line(rgbBitmap, x0, y0, x1, y0, c)
     } else {
       println("Rectangle values not valid")
+      throw new IllegalArgumentException
     }
   }
 
@@ -54,6 +58,7 @@ object Draw {
       }
     } else {
       println("Rectangle values not valid")
+      throw new IllegalArgumentException
     }
   }
 
@@ -62,6 +67,7 @@ object Draw {
       BitmapOps.midpoint(rgbBitmap, x, y, r, c)
     } else {
       println("Circle values not valid")
+      throw new IllegalArgumentException
     }
   }
 
@@ -70,6 +76,7 @@ object Draw {
       BitmapOps.midpointFill(rgbBitmap, x, y, r, c)
     } else {
       println("Circle values not valid")
+      throw new IllegalArgumentException
     }
   }
 
@@ -86,15 +93,15 @@ object Draw {
   }
 
   def draw(rgbBitmap: RgbBitmap, c: Color, g: Shape) = g match {
-    case Line(x0, y0, x1, y1) => line(rgbBitmap, x0*20, Math.abs(y0 - 20) * 20, x1*20, Math.abs(y1 - 20) * 20, c)
-    case Rectangle(x0, y0, x1, y1) => rectangle(rgbBitmap, x0*20, Math.abs(y0 - 20) * 20, x1*20, Math.abs(y1 - 20) * 20, c)
-    case Circle(x, y, r) => circle(rgbBitmap, x*20, Math.abs(y - 20) * 20, r*20, c)
-    case TextAt(x, y, t) => textAt(rgbBitmap, x*20, Math.abs(y - 20) * 20, t, c)
+    case Line(x0, y0, x1, y1) => line(rgbBitmap, x0* Scaling, Math.abs(y0 - Scaling) * Scaling, x1* Scaling, Math.abs(y1 - Scaling) * Scaling, c)
+    case Rectangle(x0, y0, x1, y1) => rectangle(rgbBitmap, x0* Scaling, Math.abs(y0 - Scaling) * Scaling, x1* Scaling, Math.abs(y1 - Scaling) * Scaling, c)
+    case Circle(x, y, r) => circle(rgbBitmap, x* Scaling, Math.abs(y - Scaling) * Scaling, r* Scaling, c)
+    case TextAt(x, y, t) => textAt(rgbBitmap, x* Scaling, Math.abs(y - Scaling) * Scaling, t, c)
   }
 
   def fill(rgbBitmap: RgbBitmap, c: Color, g: Shape) = g match {
-    case Rectangle(x0, y0, x1, y1) => rectangleFill(rgbBitmap, x0*20, Math.abs(y0 - 20) * 20, x1*20, Math.abs(y1 - 20) * 20, c)
-    case Circle(x, y, r) => circleFill(rgbBitmap, x*20, Math.abs(y - 20) * 20, r*20, c)
+    case Rectangle(x0, y0, x1, y1) => rectangleFill(rgbBitmap, x0* Scaling, Math.abs(y0 - Scaling) * Scaling, x1* Scaling, Math.abs(y1 - Scaling) * Scaling, c)
+    case Circle(x, y, r) => circleFill(rgbBitmap, x* Scaling, Math.abs(y - Scaling) * Scaling, r* Scaling, c)
   }
 
   def validateLineInput(x0: Int, y0: Int, x1: Int, y1: Int): Boolean = {
