@@ -6,6 +6,7 @@ import org.junit.Test;
 import sample.Util.Command;
 
 import java.awt.*;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -180,5 +181,26 @@ public class InterpreterTest {
         interpreter.interpret(boundingBox + "(CIRCLE (2 22) 5)");
         verify(painter).drawCircle(2, 22, 5);
 
+    }
+
+
+    @Test(expected = InvalidParameterException.class)
+    public void interpret_tooManyParenthesis_InvalidParameterException() {
+        interpreter.interpret("(BOUNDING-BOX (1 1) (10 10))(LINE (5 5) (10 10)))");
+    }
+
+    @Test(expected = InvalidParameterException.class)
+    public void interpret_tooFewParenthesis_InvalidParameterException() {
+        interpreter.interpret("(BOUNDING-BOX (1 1) (10 10))(LINE (5 5) (10 10)");
+    }
+
+    @Test(expected = InvalidParameterException.class)
+    public void interpret_inputFieldIsEmpty_InvalidParameterException() {
+        interpreter.interpret("                                             ");
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void interpret_nonsense_IndexOutOfBoundsException() {
+        interpreter.interpret("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
     }
 }
