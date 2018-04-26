@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import sample.Util.Command;
+import scala.Draw;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -180,5 +181,31 @@ public class InterpreterTest {
         interpreter.interpret(boundingBox + "(CIRCLE (2 22) 5)");
         verify(painter).drawCircle(2, 22, 5);
 
+        interpreter.interpret(boundingBox + "(TEXT-AT (20 20) test12.5%)");
+        verify(painter).drawTextAt(20, 20, "test12.5%");
     }
+
+    @Test
+    public void interpret_fillCommand_painterCalledCorrect() {
+        String boundingBox = "(BOUNDING-BOX (1 1) (10 10))\n";
+        interpreter.interpret(boundingBox + "(FILL RED (RECTANGLE (1 2) (5 5)))");
+        verify(painter).fillShape(Color.RED, new Draw.Rectangle(1, 2, 5, 5));
+        interpreter.interpret(boundingBox + "(FILL RED (CIRCLE (1 2) 5))");
+        verify(painter).fillShape(Color.RED, new Draw.Circle(1, 2, 5));
+    }
+
+    @Test
+    public void interpret_drawCommand_painterCalledCorrect() {
+        String boundingBox = "(BOUNDING-BOX (1 1) (10 10))\n";
+        interpreter.interpret(boundingBox + "(DRAW RED (RECTANGLE (1 2) (5 5)))");
+        verify(painter).drawShapes(Color.RED, new Draw.Cons(new Draw.Rectangle(1, 2, 5, 5), new Draw.Nil()));
+
+        interpreter.interpret(boundingBox + "(DRAW GREEN (RECTANGLE (1 2) (5 5)) (LINE (5 5) (10 10)) (CIRCLE (6 6) 16))");
+        verify(painter).drawShapes(Color.GREEN, new Draw.Cons(new Draw.Circle(6, 6, 16), new Draw.Cons(new Draw.Line(5, 5, 10, 10), new Draw.Cons(new Draw.Rectangle(1, 2, 5, 5), new Draw.Nil()))));
+
+        interpreter.interpret(boundingBox + "(DRAW BLUE (TEXT-AT (5 5) Hejsa) (RECTANGLE (1 2) (5 5)) (LINE (5 5) (10 10)) (CIRCLE (6 6) 16))");
+        verify(painter).drawShapes(Color.BLUE, new Draw.Cons(new Draw.Circle(6, 6, 16), new Draw.Cons(new Draw.Line(5, 5, 10, 10), new Draw.Cons(new Draw.Rectangle(1, 2, 5, 5), new Draw.Cons(new Draw.TextAt(5,5,"Hejsa"), new Draw.Nil())))));
+    }
+
+
 }
