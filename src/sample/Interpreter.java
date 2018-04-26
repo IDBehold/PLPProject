@@ -181,7 +181,7 @@ public class Interpreter {
     }
 
     private String getCommandName(String command) {
-        String[] split = command.split(" ");
+        String[] split = command.split("[\\s\\(]");
 
         if (split.length > 0 && split[0].matches("[a-zA-Z\\-]+")) {
             return split[0];
