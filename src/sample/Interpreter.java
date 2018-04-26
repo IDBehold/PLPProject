@@ -3,9 +3,11 @@ package sample;
 import sample.Util.Command;
 import scala.Char;
 import scala.Draw;
+import scala.reflect.internal.Trees;
 
 import java.awt.*;
 import java.lang.reflect.Field;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +24,15 @@ public class Interpreter {
     public void interpret(String s) {
         List<String> commandstrings = splitIntoCommands(s);
         List<Command> commands = createCommands(commandstrings);
+
+        if(s.trim().length() == 0)
+        {
+            throw new InvalidParameterException("Input field is empty");
+        }
+        else if (!commands.get(0).getName().toLowerCase().equals("bounding-box"))
+        {
+            throw new InvalidParameterException("Input has to be initialized with a bounding-box");
+        }
 
         for (Command command : commands) {
             switch (command.getName().toLowerCase()) {

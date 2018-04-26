@@ -85,7 +85,9 @@ public class Controller implements Painter {
     @FXML
     public void submit() {
 
+        imageContainer.getChildren().clear();
         ErrorMessages.setText("");
+        rgbBitmap = null;
         try {
             interpreter.interpret(InputField.getText());
         } catch (Exception e) {
@@ -108,6 +110,20 @@ public class Controller implements Painter {
 
     @Override
     public void setBoundingBox(int x0, int y0, int x1, int y1) {
+        if(x0 > x1)
+        {
+            int newx0 = x1;
+            int newx1 = x0;
+            x0 = newx0;
+            x1 = newx1;
+        }
+        if(y0 > y1)
+        {
+            int newy0 = y1;
+            int newy1 = y0;
+            y0 = newy0;
+            y1 = newy1;
+        }
         rgbBitmap = new RgbBitmap((int) imageContainer.getWidth(), (int) imageContainer.getHeight(), x0*Scaling, Math.abs(y0-Scaling)*Scaling, x1*Scaling, Math.abs(y1-Scaling)*Scaling);
         rgbBitmap.fill(Color.WHITE);
         Grid.draw(rgbBitmap, (int) imageContainer.getWidth(), (int) imageContainer.getHeight());
