@@ -93,13 +93,17 @@ public class Controller implements Painter {
         }
 //        Cons shapeList = new Cons(new Line(2, 2, 16, 16), new Cons(new Line(4, 4, 15, 15), new Cons(new Rectangle(3,3,5,5), new Cons(new Rectangle(10,9, 7, 3), new Cons(new Rectangle(1,1,1,1), new Nil())))));
 
-        Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
-        ImageView imageView = new ImageView();
-        imageView.setImage(image);
+        try{
+            Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
+            ImageView imageView = new ImageView();
+            imageView.setImage(image);
 
-        // Clear image container and add new imageView
-        imageContainer.getChildren().clear();
-        imageContainer.getChildren().addAll(imageView);
+            // Clear image container and add new imageView
+            imageContainer.getChildren().clear();
+            imageContainer.getChildren().addAll(imageView);
+        } catch (Exception e) {
+            ErrorMessages.setText("Failed to render image without a bounding-box");
+        }
     }
 
     @Override
