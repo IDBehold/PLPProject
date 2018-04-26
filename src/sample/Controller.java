@@ -84,6 +84,8 @@ public class Controller implements Painter {
 
     @FXML
     public void submit() {
+
+        ErrorMessages.setText("");
         try {
             interpreter.interpret(InputField.getText());
         } catch (Exception e) {
