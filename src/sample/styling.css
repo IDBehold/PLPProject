@@ -8,6 +8,8 @@
 
 #imageContainer {
     -fx-background-color: blueviolet;
+    -fx-background-image: url(./res/stewart-facepalm.jpg);
+    -fx-background-position: center;
 }
  #GridPane {
      -fx-background-color: darkorange;
