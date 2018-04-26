@@ -84,6 +84,8 @@ public class Controller implements Painter {
 
     @FXML
     public void submit() {
+
+        ErrorMessages.setText("");
         try {
             interpreter.interpret(InputField.getText());
         } catch (Exception e) {
@@ -130,7 +132,7 @@ public class Controller implements Painter {
 
     @Override
     public void drawShapes(Color c, Draw.ShapeList shapes) {
-        draw(rgbBitmap, Color.BLACK, shapes);
+        draw(rgbBitmap, c, shapes);
     }
 
     @Override

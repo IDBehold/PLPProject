@@ -2,6 +2,7 @@ package sample;
 
 import sample.Util.Command;
 import scala.Char;
+import scala.Draw;
 
 import java.awt.*;
 import java.lang.reflect.Field;
@@ -65,9 +66,15 @@ public class Interpreter {
                     painter.drawTextAt(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]), parameter2);
                     break;
                 }
-//                case "draw":
-//                    painter.drawShapes();
-//                    break;
+                case "draw": {
+                    String color = command.getParameter(0);
+                    Draw.ShapeList list = new Draw.Nil();
+                    for (Command c : command.getHigherOrderFunctions()) {
+                        list = appendShape(c, list);
+                    }
+                    painter.drawShapes(parseColor(color), list);
+                    break;
+                }
 //                case "fill":
 //                    painter.fillShape();
 //                    break;
@@ -76,6 +83,40 @@ public class Interpreter {
             }
         }
 
+    }
+
+    private Draw.ShapeList appendShape(Command command, Draw.ShapeList tail) {
+        switch (command.getName().toLowerCase()) {
+            case "line": {
+                String parameter1 = command.getParameter(0);
+                String[] split1 = parameter1.split(" ");
+                String parameter2 = command.getParameter(1);
+                String[] split2 = parameter2.split(" ");
+                return new Draw.Cons(new Draw.Line(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]), Integer.parseInt(split2[0]), Integer.parseInt(split2[1])), tail);
+            }
+            case "rectangle": {
+                String parameter1 = command.getParameter(0);
+                String[] split1 = parameter1.split(" ");
+                String parameter2 = command.getParameter(1);
+                String[] split2 = parameter2.split(" ");
+                return new Draw.Cons(new Draw.Rectangle(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]), Integer.parseInt(split2[0]), Integer.parseInt(split2[1])), tail);
+            }
+            case "text-at": {
+                String parameter1 = command.getParameter(0);
+                String[] split1 = parameter1.split(" ");
+                String parameter2 = command.getParameter(1);
+                return new Draw.Cons(new Draw.TextAt(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]), parameter2), tail);
+            }
+            case "circle": {
+                String parameter1 = command.getParameter(0);
+                String[] split1 = parameter1.split(" ");
+                String parameter2 = command.getParameter(1);
+                return new Draw.Cons(new Draw.Circle(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]), Integer.parseInt(parameter2)), tail);
+            }
+            default: {
+                throw new IllegalArgumentException(command.getName() + " is not a valid higher order command");
+            }
+        }
     }
 
     public List<String> splitIntoCommands(String rawInput) {
@@ -209,3 +250,4 @@ public class Interpreter {
         return color;
     }
 }
+
