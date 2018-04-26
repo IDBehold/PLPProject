@@ -1,8 +1,8 @@
 # PLPProject
 
-####
+Templates for the input field:
 
-Bar chart clipboard:
+#Bar chart clipboard:
 
 (bounding-box (2 2) (18 18))
 (fill yellow (rectangle (2 4) (10 6)))
@@ -32,10 +32,7 @@ Bar chart clipboard:
 (text-at (16 1) 14)
 (text-at (18 1) 16)
 
-
-####
-
-Pie chart clipboard
+#Pie chart clipboard
 
 (bounding-box (2 2) (18 18))
 (circle (10 10) 7)
