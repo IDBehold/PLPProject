@@ -20,8 +20,7 @@ object Draw {
     if (validateLineInput(x0, y0, x1, y1)) {
       BitmapOps.bresenham(rgbBitmap, x0, y0, x1, y1, c)
     } else {
-      println("Line values not valid")
-      throw new IllegalArgumentException
+      throw new IllegalArgumentException("Line values not valid")
     }
   }
 
@@ -36,8 +35,7 @@ object Draw {
       line(rgbBitmap, x1, y1, x1, y0, c)
       line(rgbBitmap, x0, y0, x1, y0, c)
     } else {
-      println("Rectangle values not valid")
-      throw new IllegalArgumentException
+      throw new IllegalArgumentException("Rectangle values not valid")
     }
   }
 
@@ -57,8 +55,7 @@ object Draw {
         linesDrawn += 1
       }
     } else {
-      println("Rectangle values not valid")
-      throw new IllegalArgumentException
+      throw new IllegalArgumentException("Rectangle values not valid")
     }
   }
 
@@ -66,8 +63,7 @@ object Draw {
     if (validateCircleInput(x, y, r)) {
       BitmapOps.midpoint(rgbBitmap, x, y, r, c)
     } else {
-      println("Circle values not valid")
-      throw new IllegalArgumentException
+      throw new IllegalArgumentException("Circle values not valid")
     }
   }
 
@@ -75,8 +71,7 @@ object Draw {
     if (validateCircleInput(x, y, r)) {
       BitmapOps.midpointFill(rgbBitmap, x, y, r, c)
     } else {
-      println("Circle values not valid")
-      throw new IllegalArgumentException
+      throw new IllegalArgumentException("Circle values not valid")
     }
   }
 
