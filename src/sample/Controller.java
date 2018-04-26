@@ -90,12 +90,7 @@ public class Controller implements Painter {
         rgbBitmap = null;
         try {
             interpreter.interpret(InputField.getText());
-        } catch (Exception e) {
-            ErrorMessages.setText(e.toString());
-        }
 //        Cons shapeList = new Cons(new Line(2, 2, 16, 16), new Cons(new Line(4, 4, 15, 15), new Cons(new Rectangle(3,3,5,5), new Cons(new Rectangle(10,9, 7, 3), new Cons(new Rectangle(1,1,1,1), new Nil())))));
-
-        try{
             Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
             ImageView imageView = new ImageView();
             imageView.setImage(image);
@@ -104,7 +99,7 @@ public class Controller implements Painter {
             imageContainer.getChildren().clear();
             imageContainer.getChildren().addAll(imageView);
         } catch (Exception e) {
-            ErrorMessages.setText("Failed to render image without a bounding-box");
+            ErrorMessages.setText(e.toString());
         }
     }
 

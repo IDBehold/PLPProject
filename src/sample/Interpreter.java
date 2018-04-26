@@ -22,14 +22,28 @@ public class Interpreter {
     }
 
     public void interpret(String s) {
-        List<String> commandstrings = splitIntoCommands(s);
-        List<Command> commands = createCommands(commandstrings);
 
         if(s.trim().length() == 0)
         {
             throw new InvalidParameterException("Input field is empty");
         }
-        else if (!commands.get(0).getName().toLowerCase().equals("bounding-box"))
+
+        int numberOfOpenBrackets = s.length() - s.replace("(", "").length();
+        int numberOfClosedBrackets = s.length() - s.replace(")", "").length();
+
+        if(numberOfClosedBrackets < numberOfOpenBrackets)
+        {
+            throw new InvalidParameterException("Missing closing parenthesis");
+        }
+        else if (numberOfClosedBrackets > numberOfOpenBrackets)
+        {
+            throw new InvalidParameterException("Too many closing parenthesis");
+        }
+
+        List<String> commandstrings = splitIntoCommands(s);
+        List<Command> commands = createCommands(commandstrings);
+
+        if (!commands.get(0).getName().toLowerCase().equals("bounding-box"))
         {
             throw new InvalidParameterException("Input has to be initialized with a bounding-box");
         }
@@ -96,7 +110,6 @@ public class Interpreter {
                     throw new IllegalArgumentException(command.getName() + " is not a valid command");
             }
         }
-
     }
 
     private Draw.Shape getShapeToFill(Command command) {
