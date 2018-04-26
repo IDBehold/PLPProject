@@ -16,7 +16,7 @@ class RgbBitmap(val width: Int, val height: Int, val x0: Int, val y0: Int, val x
   }
 
   def setPixel(x: Int, y: Int, c: Color) = {
-    if (x >= x0 && x <= x1 && y >= y0 && y <= y1) {
+    if (x >= x0 && x <= x1 && y <= y0 && y >= y1) {
       image.setRGB(x, y, c.getRGB())
     }
   }
