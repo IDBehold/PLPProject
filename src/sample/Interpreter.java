@@ -247,7 +247,7 @@ public class Interpreter {
         int openBracketsCounter = 0;
 
         while (pos < command.length()) {
-            if (!Character.toString(command.charAt(pos)).matches("[a-zA-Z0-9\\s\\-()]")) {
+            if (!Character.toString(command.charAt(pos)).matches("[a-zA-Z0-9\\s\\-()\\.\\%]")) {
                 throw new IllegalStateException("Invalid command");
             }
 
@@ -263,7 +263,7 @@ public class Interpreter {
                         startIndex = pos + 1;
                         lookForStartingSpace = false;
                     }
-                } else if (pos == command.length() - 1 && Character.toString(command.charAt(pos)).matches("[a-zA-Z0-9]") && !lookForStartingSpace) {
+                } else if (pos == command.length() - 1 && Character.toString(command.charAt(pos)).matches("[a-zA-Z0-9\\.\\%]") && !lookForStartingSpace) {
                     endIndex = pos + 1;
                     result.add(command.substring(startIndex, endIndex));
                 }

@@ -42,7 +42,7 @@ public class InterpreterTest {
     }
 
     @Test
-    public void createCommands_correctCommandNames(){
+    public void createCommands_correctCommandNames() {
         List<String> commandStrings = interpreter.splitIntoCommands("(function (12 12) 35)\n(test (1 2) (2 99) text)(foo 1 2 3)(foo 1 2 3)");
         List<Command> commandList = interpreter.createCommands(commandStrings);
         Assert.assertEquals("function", commandList.get(0).getName());
@@ -52,20 +52,8 @@ public class InterpreterTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void createCommands_commandNameWithNumbers_invalidCommandName() {
-        List<String> commands = interpreter.splitIntoCommands("(function(12 12)35)");
-        interpreter.createCommands(commands);
-    }
-
-    @Test(expected = IllegalStateException.class)
     public void createCommands_commandNameWithSpecialCharacters_invalidCommandName() {
         List<String> commands = interpreter.splitIntoCommands("(function!.( 1212)35)");
-        interpreter.createCommands(commands);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void createCommands_noSpaces_invalidCommandName() {
-        List<String> commands = interpreter.splitIntoCommands("(function(1212)35)");
         interpreter.createCommands(commands);
     }
 
@@ -77,6 +65,7 @@ public class InterpreterTest {
         Assert.assertEquals(2, commandList.get(1).getParameters().size());
         Assert.assertEquals(4, commandList.get(2).getParameters().size());
     }
+
     @Test
     public void createCommands_correctCommandParameter_IntegerParameters() {
         List<String> commands = interpreter.splitIntoCommands("(function 12 13 35) (foo 35 66)\n(test 1 2 2 99)");
@@ -115,7 +104,7 @@ public class InterpreterTest {
     }
 
     @Test
-    public void createCommands_TextAt(){
+    public void createCommands_TextAt() {
         List<String> commands = interpreter.splitIntoCommands("(TEXT-AT (12 12) Hejsa)");
         List<Command> commandList = interpreter.createCommands(commands);
 
@@ -126,7 +115,7 @@ public class InterpreterTest {
     }
 
     @Test
-    public void createCommands_higherOrderFunctions_parameterCount(){
+    public void createCommands_higherOrderFunctions_parameterCount() {
         List<String> commands = interpreter.splitIntoCommands("(draw (foo 12 13) (LINE (2 2) (22 2)))\n\t(FILL RED (CIRCLE (35 66) 5) (LINE (2 2) (5 5)))");
         List<Command> commandList = interpreter.createCommands(commands);
         Assert.assertEquals(2, commandList.get(0).getHigherOrderFunctions().size());
@@ -135,7 +124,7 @@ public class InterpreterTest {
     }
 
     @Test
-    public void createCommands_higherOrderFunctions_parameterContent(){
+    public void createCommands_higherOrderFunctions_parameterContent() {
         List<String> commands = interpreter.splitIntoCommands("(draw (foo 12 13) (LINE (2 2) (22 2)))\n\t(FILL RED (CIRCLE (35 66) 5) (LINE (2 2) (5 5)))");
         List<Command> commandList = interpreter.createCommands(commands);
         Assert.assertEquals("draw", commandList.get(0).getName());
@@ -162,8 +151,8 @@ public class InterpreterTest {
     }
 
     @Test
-    public void parseColor_LotsOfStrings_TheColorOrBlackAsDefault(){
-        List<String> colors = new ArrayList<>(Arrays.asList("RED", "green", "Cyan", "NoColor","Color.RED","","Evil","PurPlE", "blue", "pINK"));
+    public void parseColor_LotsOfStrings_TheColorOrBlackAsDefault() {
+        List<String> colors = new ArrayList<>(Arrays.asList("RED", "green", "Cyan", "NoColor", "Color.RED", "", "Evil", "PurPlE", "blue", "pINK"));
         Assert.assertEquals(Color.RED, interpreter.parseColor(colors.get(0)));
         Assert.assertEquals(Color.GREEN, interpreter.parseColor(colors.get(1)));
         Assert.assertEquals(Color.cyan, interpreter.parseColor(colors.get(2)));
@@ -177,12 +166,19 @@ public class InterpreterTest {
     }
 
     @Test
-    public void interpret_correctPainterFunctionCalled(){
-        interpreter.interpret("(LINE (2 2) (5 5))");
-        verify(painter).drawLine(2,2,5,5);
+    public void interpret_correctPainterFunctionCalled() {
+        String boundingBox = "(BOUNDING-BOX (1 1) (10 10))\n";
+        interpreter.interpret(boundingBox);
+        verify(painter).setBoundingBox(1, 1, 10, 10);
 
-        interpreter.interpret("(BOUNDING-BOX (1 1) (10 10))");
-        verify(painter).setBoundingBox(1,1,10,10);
+        interpreter.interpret(boundingBox + "(LINE (2 2) (5 5))");
+        verify(painter).drawLine(2, 2, 5, 5);
+
+        interpreter.interpret(boundingBox + "(RECTANGLE (2 2) (5 8))");
+        verify(painter).drawRectangle(2, 2, 5, 8);
+
+        interpreter.interpret(boundingBox + "(CIRCLE (2 22) 5)");
+        verify(painter).drawCircle(2, 22, 5);
 
     }
 }
