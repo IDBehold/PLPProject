@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import scala.Draw;
 import scala.Grid;
 import scala.RgbBitmap;
+import scala.ScalaInterpreter;
 
 import java.awt.Color;
 
@@ -30,7 +31,6 @@ public class Controller implements Painter {
 
     @FXML
     Label ErrorMessages;
-    private Interpreter interpreter;
     private RgbBitmap rgbBitmap;
 
 
@@ -39,7 +39,6 @@ public class Controller implements Painter {
 
     @FXML
     public void initialize() {
-        interpreter = new Interpreter(this);
         InputField.setText("(bounding-box (2 2) (18 18))\n" +
                 "(circle (10 10) 7)\n" +
                 "(line (10 10) (17 10))\n" +
@@ -82,7 +81,7 @@ public class Controller implements Painter {
         ErrorMessages.setText("");
         rgbBitmap = null;
         try {
-            interpreter.interpret(InputField.getText());
+            ScalaInterpreter.interpret(InputField.getText(), this);
 //        Cons shapeList = new Cons(new Line(2, 2, 16, 16), new Cons(new Line(4, 4, 15, 15), new Cons(new Rectangle(3,3,5,5), new Cons(new Rectangle(10,9, 7, 3), new Cons(new Rectangle(1,1,1,1), new Nil())))));
             Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
             ImageView imageView = new ImageView();
@@ -147,7 +146,6 @@ public class Controller implements Painter {
     public void fillShape(Color c, Draw.Shape shape) {
         fill(rgbBitmap, c, shape);
     }
-
 
     // Redundant functions - Validation is happening in Draw.scala
     boolean validateLineInput(int x0, int y0, int x1, int y1) {
