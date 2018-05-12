@@ -40,46 +40,39 @@ public class Controller implements Painter {
     @FXML
     public void initialize() {
         interpreter = new Interpreter(this);
-        InputField.setText("(BOUNDING-BOX (1 1) (20 20))\n" +
-                "(LINE (1 1) (1 20))\n" +
-                "(LINE (1 1) (2 20))\n" +
-                "(LINE (1 1) (3 20))\n" +
-                "(LINE (1 1) (4 20))\n" +
-                "(LINE (1 1) (5 20))\n" +
-                "(LINE (1 1) (6 20))\n" +
-                "(LINE (1 1) (7 20))\n" +
-                "(LINE (1 1) (8 20))\n" +
-                "(LINE (1 1) (9 20))\n" +
-                "(LINE (1 1) (10 20))\n" +
-                "(LINE (1 1) (11 20))\n" +
-                "(LINE (1 1) (12 20))\n" +
-                "(LINE (1 1) (13 20))\n" +
-                "(LINE (1 1) (14 20))\n" +
-                "(LINE (1 1) (15 20))\n" +
-                "(LINE (1 1) (16 20))\n" +
-                "(LINE (1 1) (17 20))\n" +
-                "(LINE (1 1) (18 20))\n" +
-                "(LINE (1 1) (19 20))\n" +
-                "(LINE (1 1) (20 20))\n" +
-                "(LINE (1 1) (20 19))\n" +
-                "(LINE (1 1) (20 18))\n" +
-                "(LINE (1 1) (20 17))\n" +
-                "(LINE (1 1) (20 16))\n" +
-                "(LINE (1 1) (20 15))\n" +
-                "(LINE (1 1) (20 14))\n" +
-                "(LINE (1 1) (20 13))\n" +
-                "(LINE (1 1) (20 12))\n" +
-                "(LINE (1 1) (20 11))\n" +
-                "(LINE (1 1) (20 10))\n" +
-                "(LINE (1 1) (20 9))\n" +
-                "(LINE (1 1) (20 8))\n" +
-                "(LINE (1 1) (20 7))\n" +
-                "(LINE (1 1) (20 6))\n" +
-                "(LINE (1 1) (20 5))\n" +
-                "(LINE (1 1) (20 4))\n" +
-                "(LINE (1 1) (20 3))\n" +
-                "(LINE (1 1) (20 2))\n" +
-                "(LINE (1 1) (20 1))");
+        InputField.setText("(bounding-box (2 2) (18 18))\n" +
+                "(circle (10 10) 7)\n" +
+                "(line (10 10) (17 10))\n" +
+                "(line (10 10) (15 15))\n" +
+                "(line (10 10) (10 17))\n" +
+                "(line (10 10) (5 5))\n" +
+                "(line (10 10) (15 5))\n" +
+                "\n" +
+                "(text-at (11 15) 12.5%)\n" +
+                "(text-at (14 12) 12.5%)\n" +
+                "(text-at (13 9) 12.5%)\n" +
+                "(text-at (10 6) 25%)\n" +
+                "(text-at (5 11) 37.5%)\n" +
+                "\n" +
+                "(text-at (2 1) 2)\n" +
+                "(text-at (4 1) 4)\n" +
+                "(text-at (6 1) 6)\n" +
+                "(text-at (8 1) 8)\n" +
+                "(text-at (10 1) 10)\n" +
+                "(text-at (12 1) 12)\n" +
+                "(text-at (14 1) 14)\n" +
+                "(text-at (16 1) 16)\n" +
+                "(text-at (18 1) 18)\n" +
+                "\n" +
+                "(text-at (1 2) 2)\n" +
+                "(text-at (1 4) 4)\n" +
+                "(text-at (1 6) 6)\n" +
+                "(text-at (1 8) 8)\n" +
+                "(text-at (1 10) 10)\n" +
+                "(text-at (1 12) 12)\n" +
+                "(text-at (1 14) 14)\n" +
+                "(text-at (1 16) 16)\n" +
+                "(text-at (1 18) 18)");
     }
 
     @FXML

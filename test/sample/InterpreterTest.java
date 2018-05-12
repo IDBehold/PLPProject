@@ -4,8 +4,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import sample.Util.Command;
+import scala.Draw;
 
 import java.awt.*;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -180,5 +182,49 @@ public class InterpreterTest {
         interpreter.interpret(boundingBox + "(CIRCLE (2 22) 5)");
         verify(painter).drawCircle(2, 22, 5);
 
+        interpreter.interpret(boundingBox + "(TEXT-AT (20 20) test12.5%)");
+        verify(painter).drawTextAt(20, 20, "test12.5%");
+    }
+
+    @Test
+    public void interpret_fillCommand_painterCalledCorrect() {
+        String boundingBox = "(BOUNDING-BOX (1 1) (10 10))\n";
+        interpreter.interpret(boundingBox + "(FILL RED (RECTANGLE (1 2) (5 5)))");
+        verify(painter).fillShape(Color.RED, new Draw.Rectangle(1, 2, 5, 5));
+        interpreter.interpret(boundingBox + "(FILL RED (CIRCLE (1 2) 5))");
+        verify(painter).fillShape(Color.RED, new Draw.Circle(1, 2, 5));
+    }
+
+    @Test
+    public void interpret_drawCommand_painterCalledCorrect() {
+        String boundingBox = "(BOUNDING-BOX (1 1) (10 10))\n";
+        interpreter.interpret(boundingBox + "(DRAW RED (RECTANGLE (1 2) (5 5)))");
+        verify(painter).drawShapes(Color.RED, new Draw.Cons(new Draw.Rectangle(1, 2, 5, 5), new Draw.Nil()));
+
+        interpreter.interpret(boundingBox + "(DRAW GREEN (RECTANGLE (1 2) (5 5)) (LINE (5 5) (10 10)) (CIRCLE (6 6) 16))");
+        verify(painter).drawShapes(Color.GREEN, new Draw.Cons(new Draw.Circle(6, 6, 16), new Draw.Cons(new Draw.Line(5, 5, 10, 10), new Draw.Cons(new Draw.Rectangle(1, 2, 5, 5), new Draw.Nil()))));
+
+        interpreter.interpret(boundingBox + "(DRAW BLUE (TEXT-AT (5 5) Hejsa) (RECTANGLE (1 2) (5 5)) (LINE (5 5) (10 10)) (CIRCLE (6 6) 16))");
+        verify(painter).drawShapes(Color.BLUE, new Draw.Cons(new Draw.Circle(6, 6, 16), new Draw.Cons(new Draw.Line(5, 5, 10, 10), new Draw.Cons(new Draw.Rectangle(1, 2, 5, 5), new Draw.Cons(new Draw.TextAt(5,5,"Hejsa"), new Draw.Nil())))));
+    }
+
+    @Test(expected = InvalidParameterException.class)
+    public void interpret_tooManyParenthesis_InvalidParameterException() {
+        interpreter.interpret("(BOUNDING-BOX (1 1) (10 10))(LINE (5 5) (10 10)))");
+    }
+
+    @Test(expected = InvalidParameterException.class)
+    public void interpret_tooFewParenthesis_InvalidParameterException() {
+        interpreter.interpret("(BOUNDING-BOX (1 1) (10 10))(LINE (5 5) (10 10)");
+    }
+
+    @Test(expected = InvalidParameterException.class)
+    public void interpret_inputFieldIsEmpty_InvalidParameterException() {
+        interpreter.interpret("                                             ");
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void interpret_nonsense_IndexOutOfBoundsException() {
+        interpreter.interpret("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
     }
 }
