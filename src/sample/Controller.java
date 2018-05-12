@@ -82,7 +82,11 @@ public class Controller implements Painter {
         rgbBitmap = null;
         try {
             ScalaInterpreter.interpret(InputField.getText(), this);
-//        Cons shapeList = new Cons(new Line(2, 2, 16, 16), new Cons(new Line(4, 4, 15, 15), new Cons(new Rectangle(3,3,5,5), new Cons(new Rectangle(10,9, 7, 3), new Cons(new Rectangle(1,1,1,1), new Nil())))));
+
+            // Hardcoded shapes for test purpose
+            drawLine(10, 10, 15, 17);
+            drawCircle(6,8,3);
+
             Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
             ImageView imageView = new ImageView();
             imageView.setImage(image);

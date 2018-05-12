@@ -18,14 +18,14 @@ object Draw {
 
   def line(rgbBitmap: RgbBitmap, x0: Int, y0: Int, x1: Int, y1: Int, c: Color) = {
     if (validateLineInput(x0, y0, x1, y1)) {
-      BitmapOps.bresenham(rgbBitmap, x0, y0, x1, y1, c)
+      BitmapOps.bresenhamTailRecursive(rgbBitmap, x0, y0, x1, y1, c)
     } else {
       throw new IllegalArgumentException("Line values not valid")
     }
   }
 
   def gridLine(rgbBitmap: RgbBitmap, x0: Int, y0: Int, x1: Int, y1: Int, c: Color) = {
-    BitmapOps.bresenham(rgbBitmap, x0, y0, x1, y1, c, true)
+    BitmapOps.bresenhamTailRecursive(rgbBitmap, x0, y0, x1, y1, c, true)
   }
 
   def rectangle(rgbBitmap: RgbBitmap, x0: Int, y0: Int, x1: Int, y1: Int, c: Color) = {
@@ -61,8 +61,7 @@ object Draw {
 
   def circle(rgbBitmap: RgbBitmap, x: Int, y: Int, r: Int, c: Color) = {
     if (validateCircleInput(x, y, r)) {
-//      BitmapOps.midpoint(rgbBitmap, x, y, r, c)
-      BitmapOps.midpointRec(rgbBitmap, x, y, r, c)
+      BitmapOps.midpointTailRecursive(rgbBitmap, x, y, r, c)
     } else {
       throw new IllegalArgumentException("Circle values not valid")
     }
@@ -70,8 +69,7 @@ object Draw {
 
   def circleFill(rgbBitmap: RgbBitmap, x: Int, y: Int, r: Int, c: Color) = {
     if (validateCircleInput(x, y, r)) {
-//      BitmapOps.midpointFill(rgbBitmap, x, y, r, c)
-      BitmapOps.midpointFillRec(rgbBitmap, x, y, r, c)
+      BitmapOps.midpointFillTailRecursive(rgbBitmap, x, y, r, c)
     } else {
       throw new IllegalArgumentException("Circle values not valid")
     }
