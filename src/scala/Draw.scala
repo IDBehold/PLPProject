@@ -61,7 +61,8 @@ object Draw {
 
   def circle(rgbBitmap: RgbBitmap, x: Int, y: Int, r: Int, c: Color) = {
     if (validateCircleInput(x, y, r)) {
-      BitmapOps.midpoint(rgbBitmap, x, y, r, c)
+//      BitmapOps.midpoint(rgbBitmap, x, y, r, c)
+      BitmapOps.midpointRec(rgbBitmap, x, y, r, c)
     } else {
       throw new IllegalArgumentException("Circle values not valid")
     }
