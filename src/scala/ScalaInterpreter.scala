@@ -4,9 +4,10 @@ import java.security.InvalidParameterException
 import java.util
 import java.util.ArrayList
 
-import sample.{Painter}
+import sample.Painter
 import sample.Util.{ColorUtils, Command}
 
+import scala.Draw.ShapeList
 import scala.collection.JavaConverters._
 
 object ScalaInterpreter {
@@ -250,12 +251,9 @@ object ScalaInterpreter {
 
     case "draw" =>
       val color: String = command.getParameter(0)
-      var list: Draw.ShapeList = new Draw.Nil
-      import scala.collection.JavaConversions._
-      for (c <- command.getHigherOrderFunctions) {
-        list = appendShape(c, list)
-      }
-      painter.drawShapes(ColorUtils.parseColor(color), list)
+      var higherOrderShapes = appendHigherOrderFunctions(command.getHigherOrderFunctions.asScala.toList, Draw.Nil())
+      painter.drawShapes(ColorUtils.parseColor(color), higherOrderShapes)
+
     case "fill" =>
       val color: String = command.getParameter(0)
       val shape: Draw.Shape = getShapeToFill(command.getHigherOrderFunction(0))
@@ -263,5 +261,11 @@ object ScalaInterpreter {
 
     case _ =>
       throw new IllegalArgumentException(command.getName + " is not a valid command")
+  }
+
+  // Is this tail recursive tho?
+  def appendHigherOrderFunctions(commands: List[Command], shapeList: ShapeList): ShapeList = commands match {
+    case head :: tail => appendHigherOrderFunctions(tail, appendShape(head, shapeList))
+    case Nil => shapeList
   }
 }
