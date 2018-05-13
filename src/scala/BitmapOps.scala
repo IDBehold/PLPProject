@@ -105,7 +105,7 @@ object BitmapOps {
     bresenham(bm, x0 - radius, y0, x0 + radius, y0, c)
   }
 
-  def midpointFillTailRecursive(bm: RgbBitmap, x0: Int, y0: Int, radius: Int, c: Color) = {
+  def midpointFillTailRecursive(bm: RgbBitmap, x0: Int, y0: Int, radius: Int, c: Color): Unit = {
     var f = 1 - radius
     var ddF_x = 1
     var ddF_y = -2 * radius

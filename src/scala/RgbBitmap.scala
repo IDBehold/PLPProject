@@ -3,8 +3,6 @@ package scala
 import java.awt.image.BufferedImage
 import java.awt.{Color, Font}
 
-import scala.annotation.tailrec
-
 class RgbBitmap(val width: Int, val height: Int, val x0: Int, val y0: Int, val x1: Int, val y1: Int) {
   val image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR)
 

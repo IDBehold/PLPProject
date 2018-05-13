@@ -1,49 +1,121 @@
 import org.sireum.logika._
 
-def midpoint(x0: Z, y0: Z, radius: Z):Unit = {
-    var f:Z = 1 - radius
-    var ddFx:Z = 1
-    var ddFy:Z = -2 * radius
-    var x:Z = 0
-    var y:Z = radius
+def midpoint(x0: Z, y0: Z, radius: Z): Unit = {
+  var f: Z = 1 - radius
+  var ddFx: Z = 1
+  var ddFy: Z = -2 * radius
+  var x: Z = 0
+  var y: Z = radius
 
-    while (x < y) {
+  while (x < y) {
     l"""{ modifies x, y, ddFy, ddFx, f } """
-      if (f >= 0) {
+    if (f >= 0) {
       l"""{ 1.f >= 0 premise }"""
 
-        y = y-1
-        l"""{
+      y = y - 1
+      l"""{
         1.y == y_old - 1 premise
         2.y_old == y + 1 algebra 1
         }"""
 
-        ddFy = ddFy + 2
-        l"""{
+      ddFy = ddFy + 2
+      l"""{
         1.ddFy == ddFy_old + 2 premise
         2.ddFy_old + 2 == ddFy algebra 1
         }"""
 
-        f = f + ddFy
-        l"""{
+      f = f + ddFy
+      l"""{
         1.f == f_old + ddFy premise
         2.f_old + ddFy == f algebra 1
         }"""
+    }
+    x = x + 1
+    l"""{
+        1.x == x_old +1 premise
+        2.x_old == x - 1 algebra 1
+      }"""
+    ddFx = ddFx + 2
+    l"""{
+        1.ddFx == ddFx_old +2 premise
+        2.ddFx_old == ddFx - 2 algebra 1
+      }"""
+    f = f + ddFx
+    l"""{
+        1.f == f_old + ddFx premise
+        2.f_old == f - ddFx algebra 1
+      }"""
+  }
+}
+
+def midpointTailRecursive(x0: Z, y0: Z): Unit = {
+  l""" { pre radius != 0 }"""
+  var radius: Z = 10
+  var f: Z = 1 - radius
+  var ddF_x: Z = 1
+  var ddF_y: Z = -2 * radius
+  var x: Z = 0
+  var y: Z = radius
+
+  // Do stuff to RgbBitmap
+  // Assert that y0 + radius is the expected result from a specific test e.g. y0 = 10, radius = 5
+  //    bm.setPixel(x0, y0 + radius, c)
+  //    bm.setPixel(x0, y0 - radius, c)
+  //    bm.setPixel(x0 + radius, y0, c)
+  //    bm.setPixel(x0 - radius, y0, c)
+  setPixelsRecursive()
+
+  def setPixelsRecursive(): Unit =
+    if (x < y) {
+        l"""{ 1.x > y premise }"""
+      if (f >= 0) {
+        l"""{ 1.f >= 0 premise }"""
+
+        y - 1
+        l"""{
+          1.y == y_old - 1 premise
+          2.y_old == y + 1 algebra 1
+        }"""
+
+        ddF_y + 2
+        l"""{
+          1.ddFy == ddFy_old + 2 premise
+          2.ddFy_old + 2 == ddFy algebra 1
+        }"""
+
+        f + ddF_y
+        l"""{
+          1.f == f_old + ddFy premise
+          2.f_old + ddFy == f algebra 1
+        }"""
       }
-      x = x+1
+      x + 1
       l"""{
         1.x == x_old +1 premise
         2.x_old == x - 1 algebra 1
       }"""
-      ddFx = ddFx + 2
+
+      ddF_x = ddF_x + 2
       l"""{
         1.ddFx == ddFx_old +2 premise
         2.ddFx_old == ddFx - 2 algebra 1
       }"""
-      f = f + ddFx
+
+      f = f + ddF_x
       l"""{
         1.f == f_old + ddFx premise
         2.f_old == f - ddFx algebra 1
       }"""
+
+      // Do stuff to RgbBitmap
+      //        bm.setPixel(x0 + x, y0 + y, c)
+      //        bm.setPixel(x0 - x, y0 + y, c)
+      //        bm.setPixel(x0 + x, y0 - y, c)
+      //        bm.setPixel(x0 - x, y0 - y, c)
+      //        bm.setPixel(x0 + y, y0 + x, c)
+      //        bm.setPixel(x0 - y, y0 + x, c)
+      //        bm.setPixel(x0 + y, y0 - x, c)
+      //        bm.setPixel(x0 - y, y0 - x, c)
+      setPixelsRecursive()
     }
 }

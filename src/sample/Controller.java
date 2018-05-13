@@ -83,9 +83,6 @@ public class Controller implements Painter {
         try {
             ScalaInterpreter.interpret(InputField.getText(), this);
 
-            // Hardcoded shapes for test purpose
-            drawLine(10, 10, 15, 17);
-            drawCircle(6,8,3);
 
             Image image = SwingFXUtils.toFXImage(rgbBitmap.image(), null);
             ImageView imageView = new ImageView();
@@ -151,7 +148,6 @@ public class Controller implements Painter {
         fill(rgbBitmap, c, shape);
     }
 
-    // Redundant functions - Validation is happening in Draw.scala
     boolean validateLineInput(int x0, int y0, int x1, int y1) {
         return (Math.abs(x0 - x1) + Math.abs(y0 - y1) != 0);
     }
