@@ -5,15 +5,23 @@ import java.awt.Color
 import sample.Util.Constants.Scaling
 
 object Draw {
+
   sealed abstract class ShapeList
-  case class Cons(head:Shape, tail: ShapeList) extends ShapeList
+
+  case class Cons(head: Shape, tail: ShapeList) extends ShapeList
+
   case class Nil() extends ShapeList
 
   abstract class Shape
+
   case class Line(x0: Int, y0: Int, x1: Int, y1: Int) extends Shape
+
   case class Rectangle(x0: Int, y0: Int, x1: Int, y1: Int) extends Shape
+
   case class Circle(x: Int, y: Int, r: Int) extends Shape
+
   case class TextAt(x: Int, y: Int, t: String) extends Shape
+
   case class BoundingBox(x0: Int, y0: Int, x1: Int, y1: Int) extends Shape
 
   def line(rgbBitmap: RgbBitmap, x0: Int, y0: Int, x1: Int, y1: Int, c: Color) = {
@@ -40,6 +48,24 @@ object Draw {
   }
 
   def rectangleFill(rgbBitmap: RgbBitmap, x0: Int, y0: Int, x1: Int, y1: Int, c: Color) = {
+    var new_x0 = if (x0 > x1) x1 else x0
+    var new_x1 = if (x0 > x1) x0 else x1
+    var new_y0 = if (y0 > y1) y1 else y0
+    var new_y1 = if (y0 > y1) y0 else y1
+
+    rectangleFillRec(rgbBitmap, new_x0, new_y0, new_x1, new_y1, c)
+  }
+
+  def rectangleFillRec(rgbBitmap: RgbBitmap, x0: Int, y0: Int, x1: Int, y1: Int, c: Color): Unit = y1 match {
+    case y1 if y0 > y1 => BitmapOps.bresenhamTailRecursive(rgbBitmap, x0, y1, x1, y1, c)
+    case _ => {
+      BitmapOps.bresenhamTailRecursive(rgbBitmap, x0, y1, x1, y1, c)
+      rectangleFillRec(rgbBitmap, x0, y0, x1, y1 - 1, c)
+    }
+  }
+
+  //Deprecated
+  def rectangleFill2(rgbBitmap: RgbBitmap, x0: Int, y0: Int, x1: Int, y1: Int, c: Color) = {
     if (validateRectangleInput(x0, y0, x1, y1)) {
       var deltaY = y0 - y1
       var deltaYIsNegative = deltaY < 0
@@ -88,15 +114,15 @@ object Draw {
   }
 
   def draw(rgbBitmap: RgbBitmap, c: Color, g: Shape) = g match {
-    case Line(x0, y0, x1, y1) => line(rgbBitmap, x0* Scaling, Math.abs(y0 - Scaling) * Scaling, x1* Scaling, Math.abs(y1 - Scaling) * Scaling, c)
-    case Rectangle(x0, y0, x1, y1) => rectangle(rgbBitmap, x0* Scaling, Math.abs(y0 - Scaling) * Scaling, x1* Scaling, Math.abs(y1 - Scaling) * Scaling, c)
-    case Circle(x, y, r) => circle(rgbBitmap, x* Scaling, Math.abs(y - Scaling) * Scaling, r* Scaling, c)
-    case TextAt(x, y, t) => textAt(rgbBitmap, x* Scaling, Math.abs(y - Scaling) * Scaling, t, c)
+    case Line(x0, y0, x1, y1) => line(rgbBitmap, x0 * Scaling, Math.abs(y0 - Scaling) * Scaling, x1 * Scaling, Math.abs(y1 - Scaling) * Scaling, c)
+    case Rectangle(x0, y0, x1, y1) => rectangle(rgbBitmap, x0 * Scaling, Math.abs(y0 - Scaling) * Scaling, x1 * Scaling, Math.abs(y1 - Scaling) * Scaling, c)
+    case Circle(x, y, r) => circle(rgbBitmap, x * Scaling, Math.abs(y - Scaling) * Scaling, r * Scaling, c)
+    case TextAt(x, y, t) => textAt(rgbBitmap, x * Scaling, Math.abs(y - Scaling) * Scaling, t, c)
   }
 
   def fill(rgbBitmap: RgbBitmap, c: Color, g: Shape) = g match {
-    case Rectangle(x0, y0, x1, y1) => rectangleFill(rgbBitmap, x0* Scaling, Math.abs(y0 - Scaling) * Scaling, x1* Scaling, Math.abs(y1 - Scaling) * Scaling, c)
-    case Circle(x, y, r) => circleFill(rgbBitmap, x* Scaling, Math.abs(y - Scaling) * Scaling, r* Scaling, c)
+    case Rectangle(x0, y0, x1, y1) => rectangleFill(rgbBitmap, x0 * Scaling, Math.abs(y0 - Scaling) * Scaling, x1 * Scaling, Math.abs(y1 - Scaling) * Scaling, c)
+    case Circle(x, y, r) => circleFill(rgbBitmap, x * Scaling, Math.abs(y - Scaling) * Scaling, r * Scaling, c)
   }
 
   def validateLineInput(x0: Int, y0: Int, x1: Int, y1: Int): Boolean = {
