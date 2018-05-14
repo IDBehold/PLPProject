@@ -5,7 +5,7 @@ import java.awt.Color
 import scala.annotation.tailrec
 
 object BitmapOps {
-  // Aquired from https://rosettacode.org/wiki/Bitmap/Midpoint_circle_algorithm#Scala
+  // Acquired from https://rosettacode.org/wiki/Bitmap/Midpoint_circle_algorithm#Scala
   def midpoint(bm: RgbBitmap, x0: Int, y0: Int, radius: Int, c: Color) = {
     var f = 1 - radius
     var ddF_x = 1
@@ -147,7 +147,7 @@ object BitmapOps {
     bresenhamTailRecursive(bitmap, i, i1, i2, i3, color, false)
   }
 
-  // Aquired from https://rosettacode.org/wiki/Bitmap/Bresenham%27s_line_algorithm#Scala
+  // Acquired from https://rosettacode.org/wiki/Bitmap/Bresenham%27s_line_algorithm#Scala
   def bresenham(bm: RgbBitmap, x0: Int, y0: Int, x1: Int, y1: Int, c: Color, prio: Boolean): Unit = {
     val dx = math.abs(x1 - x0)
     val sx = if (x0 < x1) 1 else -1
